@@ -1,5 +1,11 @@
 package com.hms.frontend.userInterface;
 
+import com.hms.frontend.userInterface.dashboards.AdminDashboard;
+import com.hms.frontend.userInterface.dashboards.PatientDashboard;
+import com.hms.frontend.userInterface.welcome.LoginPanel;
+import com.hms.frontend.userInterface.welcome.SignUpPanel;
+import com.hms.frontend.userInterface.welcome.WelcomePanel;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,7 +16,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         setTitle("Hospital Management System");
-        setSize(750, 450);
+        setSize(790, 490);
 //        setExtendedState(JFrame.MAXIMIZED_BOTH);  // Full Screen Size
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // opens window in the center
@@ -19,20 +25,35 @@ public class MainFrame extends JFrame {
         container = new JPanel(cardLayout);
 
         // Add screens
+        container.add(new WelcomePanel(this), "WELCOME");
         container.add(new LoginPanel(this), "LOGIN");
-        container.add(new Dashboard(this), "DASHBOARD");
+        container.add(new SignUpPanel(this), "SIGN-UP");
+        container.add(new AdminDashboard(this), "ADMIN_DASHBOARD");
+        container.add(new PatientDashboard(this), "PATIENT_DASHBOARD");
 
         add(container);
 
-        showLogin();
+        showWelcome();
         setVisible(true);
+    }
+
+    public void showWelcome() {
+        cardLayout.show(container, "WELCOME");
     }
 
     public void showLogin() {
         cardLayout.show(container, "LOGIN");
     }
 
-    public void showDashboard() {
-        cardLayout.show(container, "DASHBOARD");
+    public void showSignup() {
+        cardLayout.show(container, "SIGN-UP");
+    }
+
+    public void showAdminDashboard() {
+        cardLayout.show(container, "ADMIN_DASHBOARD");
+    }
+
+    public void showPatientDashboard() {
+        cardLayout.show(container, "PATIENT_DASHBOARD");
     }
 }
