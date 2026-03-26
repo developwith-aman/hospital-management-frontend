@@ -1,8 +1,9 @@
-package com.hms.frontend.userInterface;
+package com.hms.frontend.userInterface.welcome;
 
 import com.hms.frontend.dto.LoginResponseDTO;
 import com.hms.frontend.service.AuthService;
 import com.hms.frontend.session.SessionManager;
+import com.hms.frontend.userInterface.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;
