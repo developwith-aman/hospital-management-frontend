@@ -1,9 +1,10 @@
 package com.hms.frontend.userInterface.welcome;
 
-import com.hms.frontend.dto.LoginResponseDTO;
+import com.hms.frontend.dto.login.LoginResponseDTO;
 import com.hms.frontend.service.AuthService;
 import com.hms.frontend.session.SessionManager;
 import com.hms.frontend.userInterface.MainFrame;
+import com.hms.frontend.utils.JwtUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +21,6 @@ public class LoginPanel extends JPanel {
 
         userField = new JTextField();
         passField = new JPasswordField(15);
-        emailField = new JTextField();
 
         setLayout(null);
 
@@ -34,32 +34,33 @@ public class LoginPanel extends JPanel {
         userField.setFont(new Font("Tahoma", Font.PLAIN, 15));
         add(userField);
 
-        JLabel emailLabel = new JLabel("Email id: ");
-        emailLabel.setBounds(200, 200, 100, 30);
-        emailLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
-        emailLabel.setForeground(Color.BLACK);
-        add(emailLabel);
-
-        emailField.setBounds(300, 200, 250, 30);
-        emailField.setFont(new Font("Tahoma", Font.PLAIN, 15));
-        add(emailField);
-
         JLabel passLabel = new JLabel("Password: ");
-        passLabel.setBounds(200, 250, 100, 30);
+        passLabel.setBounds(200, 200, 100, 30);
         passLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
         passLabel.setForeground(Color.BLACK);
         add(passLabel);
 
-        passField.setBounds(300, 250, 250, 30);
+        passField.setBounds(300, 200, 250, 30);
         passField.setFont(new Font("Tahoma", Font.PLAIN, 15));
         add(passField);
 
         JButton loginBtn = new JButton("Login");
-        loginBtn.setBounds(300, 300, 100, 30);
-        loginBtn.setFont(new Font("serif", Font.BOLD, 15));
+        loginBtn.setBounds(300, 250, 100, 30);
+        loginBtn.setFont(new Font("serif", Font.BOLD, 18));
         loginBtn.setBackground(Color.GREEN);
         loginBtn.setForeground(Color.BLACK);
         add(loginBtn);
+
+        JButton cancelBtn = new JButton("Cancel");
+        cancelBtn.setBounds(450, 250, 100, 30);
+        cancelBtn.setFont(new Font("serif", Font.BOLD, 18));
+        cancelBtn.setBackground(Color.GREEN);
+        cancelBtn.setForeground(Color.RED);
+        add(cancelBtn);
+
+        cancelBtn.addActionListener(e -> {
+            mainFrame.showWelcome();
+        });
 
         setBackground(Color.PINK); // main background
 
@@ -75,25 +76,41 @@ public class LoginPanel extends JPanel {
                 LoginResponseDTO response = AuthService.login(username, password);
 
                 SwingUtilities.invokeLater(() -> {
+
                     loginBtn.setEnabled(true);
 
-                    if (response != null && response.getToken() != null) {
-                        SessionManager.jwtToken = response.getToken();
-                        SessionManager.role = response.getRole();
+                    if (response == null) {
+                        JOptionPane.showMessageDialog(mainFrame, "Something went wrong. Please try again.");
+                        return;
+                    }
+                    String token = response.getToken();
 
-                        if (response.getRole().equals("ROLE_ADMIN")) {
-                            mainFrame.showAdminDashboard();
-                        } else {
-                            mainFrame.showPatientDashboard();
+                    if (token != null) {
+                        SessionManager.jwtToken = token;
+
+                        try {
+                            String role = JwtUtils.extractRole(token);
+                            Long userId = JwtUtils.extractUserId(token);
+
+                            SessionManager.role = role;
+                            SessionManager.userId = userId;
+
+                            if ("ROLE_ADMIN".equals(role)) {
+                                mainFrame.showAdminDashboard();
+                            } else {
+                                mainFrame.showPatientDashboard();
+                            }
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(mainFrame, "Something went wrong");
                         }
-
                     } else {
-                        String msg = (response != null)
-                                ? response.getMessage()
-                                : "Server Error";
-                        JOptionPane.showMessageDialog(this, msg);
+                        JOptionPane.showMessageDialog(
+                                mainFrame,
+                                response.getMessage() != null ? response.getMessage() : "Login failed"
+                        );
                     }
                 });
+
             }).start();
         });
     }
