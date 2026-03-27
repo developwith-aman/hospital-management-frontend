@@ -11,7 +11,7 @@ import java.awt.*;
 
 public class LoginPanel extends JPanel {
 
-    private final MainFrame mainFrame;
+    private MainFrame mainFrame;
     private JTextField userField;
     private JPasswordField passField;
     private JTextField emailField;

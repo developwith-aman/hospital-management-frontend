@@ -96,7 +96,7 @@ public class SignUpPanel extends JPanel {
                 } else {
                     JOptionPane.showMessageDialog(mainFrame, "Signup failed");
                 }
-            });
+            }).start();
         });
     }
 }
