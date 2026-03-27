@@ -1,4 +1,4 @@
-package com.hms.frontend.dto;
+package com.hms.frontend.dto.login;
 
 
 import lombok.AllArgsConstructor;
@@ -14,5 +14,4 @@ public class LoginRequestDTO {
 
     public String username;
     public String password;
-    public String email;
 }

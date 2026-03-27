@@ -1,4 +1,4 @@
-package com.hms.frontend.dto;
+package com.hms.frontend.dto.login;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginResponseDTO {
+
     private String token;
     private String role;
     private String message;

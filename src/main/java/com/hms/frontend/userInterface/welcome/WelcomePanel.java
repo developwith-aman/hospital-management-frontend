@@ -13,31 +13,33 @@ public class WelcomePanel extends JPanel {
 
         // ===== LOGIN PROMPT =====
         JLabel loginHeader = new JLabel("Already have an account? Login below");
-        loginHeader.setBounds(100, 50, 300, 30);
+        loginHeader.setBounds(100, 150, 300, 30);
         loginHeader.setFont(new Font("Tahoma", Font.BOLD, 14));
         add(loginHeader);
 
         JButton goLoginBtn = new JButton("Login");
-        goLoginBtn.setBounds(150, 100, 100, 30);
+        goLoginBtn.setBounds(170, 200, 100, 30);
         goLoginBtn.setBackground(new Color(100, 149, 237)); // Cornflower blue
         goLoginBtn.setForeground(Color.WHITE);
-        goLoginBtn.setFont(new Font("Tahoma", Font.BOLD, 13));
+        goLoginBtn.setFont(new Font("Tahoma", Font.BOLD, 15));
         add(goLoginBtn);
 
         goLoginBtn.addActionListener(e -> mainFrame.showLogin());
 
         // ===== SIGNUP PROMPT =====
         JLabel signupHeader = new JLabel("New user? Create an account below");
-        signupHeader.setBounds(400, 50, 300, 30);
+        signupHeader.setBounds(400, 150, 300, 30);
         signupHeader.setFont(new Font("Tahoma", Font.BOLD, 14));
         add(signupHeader);
 
         JButton goSignupBtn = new JButton("Signup");
-        goSignupBtn.setBounds(450, 100, 100, 30);
+        goSignupBtn.setBounds(470, 200, 100, 30);
         goSignupBtn.setBackground(new Color(34, 139, 34)); // Forest green
         goSignupBtn.setForeground(Color.WHITE);
-        goSignupBtn.setFont(new Font("Tahoma", Font.BOLD, 13));
+        goSignupBtn.setFont(new Font("Tahoma", Font.BOLD, 15));
         add(goSignupBtn);
+
+        setBackground(Color.CYAN);
 
         goSignupBtn.addActionListener(e -> mainFrame.showSignup());
     }
