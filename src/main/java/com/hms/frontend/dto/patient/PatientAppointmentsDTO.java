@@ -1,4 +1,4 @@
-package com.hms.frontend.dto;
+package com.hms.frontend.dto.patient;
 
 
 import lombok.Getter;

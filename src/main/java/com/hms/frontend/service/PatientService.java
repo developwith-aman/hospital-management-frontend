@@ -1,8 +1,8 @@
 package com.hms.frontend.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hms.frontend.dto.PatientAppointmentsDTO;
-import com.hms.frontend.dto.PatientsDTO;
+import com.hms.frontend.dto.patient.PatientAppointmentsDTO;
+import com.hms.frontend.dto.patient.PatientsDTO;
 import com.hms.frontend.utils.ApiUtil;
 
 import java.io.BufferedReader;

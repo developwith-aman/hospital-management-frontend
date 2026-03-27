@@ -1,7 +1,7 @@
 package com.hms.frontend.userInterface.dashboards;
 
-import com.hms.frontend.dto.PatientAppointmentsDTO;
-import com.hms.frontend.dto.PatientsDTO;
+import com.hms.frontend.dto.patient.PatientAppointmentsDTO;
+import com.hms.frontend.dto.patient.PatientsDTO;
 import com.hms.frontend.service.PatientService;
 import com.hms.frontend.session.SessionManager;
 import com.hms.frontend.userInterface.MainFrame;
