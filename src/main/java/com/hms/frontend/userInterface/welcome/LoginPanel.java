@@ -14,7 +14,6 @@ public class LoginPanel extends JPanel {
     private MainFrame mainFrame;
     private JTextField userField;
     private JPasswordField passField;
-    private JTextField emailField;
 
     public LoginPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
