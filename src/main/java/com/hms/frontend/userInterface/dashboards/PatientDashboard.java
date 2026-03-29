@@ -25,12 +25,14 @@ public class PatientDashboard extends JPanel {
 
     private DefaultListModel<String> appointmentListModel = new DefaultListModel<>();
     private JList<String> appointmentList = new JList<>(appointmentListModel);
-    private PatientService patientService = new PatientService();
 
-    private MainFrame mainFrame;
+    private final MainFrame mainFrame;
+    private final PatientService patientService;
 
-    public PatientDashboard(MainFrame mainFrame) {
+    public PatientDashboard(MainFrame mainFrame,
+                            PatientService patientService) {
         this.mainFrame = mainFrame;
+        this.patientService = patientService;
 
         setLayout(new BorderLayout(10, 10));
 
@@ -93,6 +95,9 @@ public class PatientDashboard extends JPanel {
             genderLabel.setText("Gender: " + patient.getGender());
             bloodGroupLabel.setText("Blood Group: " + patient.getBloodGroup());
             insuredLabel.setText("Insured: " + (patient.isInsured() ? "Yes" : "No"));
+            arrivalTimeLabel.setText("Arrival Time: " + patient.getArrivalTime().toLocalTime());
+            appointmentCountLabel.setText("Number of Appointments: " + patient.getNumberOfAppointments());
+            payableAmountLabel.setText("Payable Amount: " + patient.getPayableAmount());
         }
         appointmentCountLabel.setText("Appointments: " + (appointments != null ? appointments.size() : 0));
     }
