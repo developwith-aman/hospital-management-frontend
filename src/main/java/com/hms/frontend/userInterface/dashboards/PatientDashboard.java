@@ -1,104 +1,139 @@
 package com.hms.frontend.userInterface.dashboards;
 
-import com.hms.frontend.dto.patient.PatientAppointmentsDTO;
 import com.hms.frontend.dto.patient.PatientsDTO;
 import com.hms.frontend.service.PatientService;
 import com.hms.frontend.session.SessionManager;
 import com.hms.frontend.userInterface.MainFrame;
 
-import java.util.List;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class PatientDashboard extends JPanel {
 
-    private JLabel idLabel = new JLabel();
-    private JLabel nameLabel = new JLabel();
-    private JLabel genderLabel = new JLabel();
-    private JLabel ageLabel = new JLabel();
-    private JLabel emailLabel = new JLabel();
-    private JLabel bloodGroupLabel = new JLabel();
-    private JLabel insuredLabel = new JLabel();
-    private JLabel arrivalTimeLabel = new JLabel();
-    private JLabel appointmentCountLabel = new JLabel();
-    private JLabel payableAmountLabel = new JLabel();
-
-    private DefaultListModel<String> appointmentListModel = new DefaultListModel<>();
-    private JList<String> appointmentList = new JList<>(appointmentListModel);
-
+    private final JLabel idLabel = new JLabel(), nameLabel = new JLabel(), genderLabel = new JLabel(),
+            ageLabel = new JLabel(), emailLabel = new JLabel(), bloodGroupLabel = new JLabel(),
+            insuredLabel = new JLabel(), arrivalTimeLabel = new JLabel(),
+            appointmentCountLabel = new JLabel(), payableAmountLabel = new JLabel();
+    private final PatientService patientService = new PatientService();
     private final MainFrame mainFrame;
-    private final PatientService patientService;
 
-    public PatientDashboard(MainFrame mainFrame,
-                            PatientService patientService) {
+    Font labelFont = new Font("Arial", Font.BOLD, 16);
+    Font fieldFont = new Font("Arial", Font.BOLD,16 );
+    public PatientDashboard(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
-        this.patientService = patientService;
 
-        setLayout(new BorderLayout(10, 10));
+        setLayout(new BorderLayout(20, 20));
+        setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
         // Patient Details Panel
-        JPanel detailsPanel = new JPanel(new GridLayout(10, 2, 10, 10));
+        JPanel detailsPanel = new JPanel(new GridLayout(0, 2, 5, 10));
         detailsPanel.setBorder(BorderFactory.createTitledBorder("Patient Details"));
+        detailsPanel.setFont(labelFont);
+        detailsPanel.setBackground(Color.PINK);
 
-        detailsPanel.add(new JLabel("Patient ID:"));
+        JLabel idText = new JLabel("Patient ID:");
+        idText.setFont(labelFont);
+        detailsPanel.add(idText);
         detailsPanel.add(idLabel);
 
-        detailsPanel.add(new JLabel("Name:"));
+        JLabel nameText = new JLabel("Name:");
+        nameText.setFont(labelFont);
+        detailsPanel.add(nameText);
         detailsPanel.add(nameLabel);
 
-        detailsPanel.add(new JLabel("Gender:"));
+        JLabel genderText = new JLabel("Gender:");
+        genderText.setFont(labelFont);
+        detailsPanel.add(genderText);
         detailsPanel.add(genderLabel);
 
-        detailsPanel.add(new JLabel("Age:"));
+        JLabel ageText = new JLabel("Age:");
+        ageText.setFont(labelFont);
+        detailsPanel.add(ageText);
         detailsPanel.add(ageLabel);
 
-        detailsPanel.add(new JLabel("Email:"));
+        JLabel emailText = new JLabel("Email:");
+        emailText.setFont(labelFont);
+        detailsPanel.add(emailText);
         detailsPanel.add(emailLabel);
 
-        detailsPanel.add(new JLabel("Blood Group:"));
+        JLabel bloodGroupText = new JLabel("Blood Group:");
+        bloodGroupText.setFont(labelFont);
+        detailsPanel.add(bloodGroupText);
         detailsPanel.add(bloodGroupLabel);
 
-        detailsPanel.add(new JLabel("Insured:"));
+        JLabel insuredText = new JLabel("Insured:");
+        insuredText.setFont(labelFont);
+        detailsPanel.add(insuredText);
         detailsPanel.add(insuredLabel);
 
-        detailsPanel.add(new JLabel("Arrival Time:"));
+        JLabel arrivalTimeText = new JLabel("Arrival Time:");
+        arrivalTimeText.setFont(labelFont);
+        detailsPanel.add(arrivalTimeText);
         detailsPanel.add(arrivalTimeLabel);
 
-        detailsPanel.add(new JLabel("Number of Appointments:"));
+        JLabel appointmentCountText = new JLabel("Number of Appointments:");
+        appointmentCountText.setFont(labelFont);
+        detailsPanel.add(appointmentCountText);
         detailsPanel.add(appointmentCountLabel);
 
-        detailsPanel.add(new JLabel("Payable Amount:"));
+        JLabel payableAmountText = new JLabel("Payable Amount:");
+        payableAmountText.setFont(labelFont);
+        detailsPanel.add(payableAmountText);
         detailsPanel.add(payableAmountLabel);
 
-        // Appointments List Panel
-        JPanel appointmentPanel = new JPanel(new BorderLayout());
-        appointmentPanel.setBorder(BorderFactory.createTitledBorder("Appointments"));
-        appointmentPanel.add(new JScrollPane(appointmentList), BorderLayout.CENTER);
-
-        add(detailsPanel, BorderLayout.NORTH);
-        add(appointmentPanel, BorderLayout.CENTER);
-
-        loadPatientData();
+        add(detailsPanel, BorderLayout.CENTER);
+        setBackground(Color.PINK);
     }
 
-    private void loadPatientData() {
+    public void loadPatientData() {
         Long userId = SessionManager.userId;
+        Long patientId = SessionManager.patientId;
 
         // fetch patient details
-        PatientsDTO patient = patientService.getPatientDetails(userId);
-        List<PatientAppointmentsDTO> appointments = patientService.getAppointments(userId);
+        PatientsDTO patient = patientService.getPatientDetails(patientId);
+//        List<PatientAppointmentsDTO> appointments = patientService.getAppointments(patientId);
 
         if (patient != null) {
-            nameLabel.setText("Name: " + patient.getPatientName());
-            emailLabel.setText("Email: " + patient.getEmail());
-            ageLabel.setText("Age: " + patient.getAge());
-            genderLabel.setText("Gender: " + patient.getGender());
-            bloodGroupLabel.setText("Blood Group: " + patient.getBloodGroup());
-            insuredLabel.setText("Insured: " + (patient.isInsured() ? "Yes" : "No"));
-            arrivalTimeLabel.setText("Arrival Time: " + patient.getArrivalTime().toLocalTime());
-            appointmentCountLabel.setText("Number of Appointments: " + patient.getNumberOfAppointments());
-            payableAmountLabel.setText("Payable Amount: " + patient.getPayableAmount());
+            idLabel.setText(String.valueOf(patient.getPatientID()));
+            idLabel.setFont(fieldFont);
+            idLabel.setForeground(new Color(128, 0, 0));
+
+            nameLabel.setText(patient.getPatientName());
+            nameLabel.setFont(fieldFont);
+            nameLabel.setForeground(new Color(128, 0, 0));
+
+            emailLabel.setText(patient.getEmail());
+            emailLabel.setFont(fieldFont);
+            emailLabel.setForeground(new Color(128, 0, 0));
+
+            ageLabel.setText(String.valueOf(patient.getAge()));
+            ageLabel.setFont(fieldFont);
+            ageLabel.setForeground(new Color(128, 0, 0));
+
+            genderLabel.setText(patient.getGender());
+            genderLabel.setFont(fieldFont);
+            genderLabel.setForeground(new Color(128, 0, 0));
+
+            bloodGroupLabel.setText(patient.getBloodGroup());
+            bloodGroupLabel.setFont(fieldFont);
+            bloodGroupLabel.setForeground(new Color(128, 0, 0));
+
+            insuredLabel.setText(patient.isInsured() ? "Yes" : "No");
+            insuredLabel.setFont(fieldFont);
+            insuredLabel.setForeground(new Color(128, 0, 0));
+
+            arrivalTimeLabel.setText(patient.getArrivalTime().toLocalDate() + " | " + patient.getArrivalTime().toLocalTime());
+            arrivalTimeLabel.setFont(fieldFont);
+            arrivalTimeLabel.setForeground(new Color(128, 0, 0));
+
+            appointmentCountLabel.setText(String.valueOf(patient.getNumberOfAppointments()));
+            appointmentCountLabel.setFont(fieldFont);
+            appointmentCountLabel.setForeground(new Color(128, 0, 0));
+
+            payableAmountLabel.setText(String.valueOf(patient.getPayableAmount()));
+            payableAmountLabel.setFont(fieldFont);
+            payableAmountLabel.setForeground(new Color(128, 0, 0));
         }
-        appointmentCountLabel.setText("Appointments: " + (appointments != null ? appointments.size() : 0));
     }
 }
