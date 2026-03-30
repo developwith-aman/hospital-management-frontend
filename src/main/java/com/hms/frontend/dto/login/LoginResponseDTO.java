@@ -15,4 +15,5 @@ public class LoginResponseDTO {
     private Long userId;
     private String message;
     private String role;
+    private Long patientId;
 }

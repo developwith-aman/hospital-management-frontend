@@ -14,7 +14,7 @@ public class MainFrame extends JFrame {
 
     private final CardLayout cardLayout;
     private final JPanel container;
-    private final PatientService patientService = new PatientService();
+    private PatientDashboard patientDashboard = new PatientDashboard(this);
 
     public MainFrame() {
         setTitle("Hospital Management System");
@@ -31,7 +31,7 @@ public class MainFrame extends JFrame {
         container.add(new LoginPanel(this), "LOGIN");
         container.add(new SignUpPanel(this), "SIGN-UP");
         container.add(new AdminDashboard(this), "ADMIN_DASHBOARD");
-        container.add(new PatientDashboard(this, patientService), "PATIENT_DASHBOARD");
+        container.add(patientDashboard, "PATIENT_DASHBOARD");
 
         add(container);
 
@@ -53,11 +53,10 @@ public class MainFrame extends JFrame {
 
     public void showAdminDashboard() {
         cardLayout.show(container, "ADMIN_DASHBOARD");
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 
     public void showPatientDashboard() {
         cardLayout.show(container, "PATIENT_DASHBOARD");
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        patientDashboard.loadPatientData();
     }
 }

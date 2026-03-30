@@ -73,7 +73,12 @@ public class LoginPanel extends JPanel {
             new Thread(() -> {
 
                 LoginResponseDTO response = AuthService.login(username, password);
-
+                if (response != null) {
+                    SessionManager.jwtToken = response.getToken();
+                    SessionManager.role = response.getRole();
+                    SessionManager.userId = response.getUserId();
+                    SessionManager.patientId = response.getPatientId();
+                }
                 SwingUtilities.invokeLater(() -> {
 
                     loginBtn.setEnabled(true);
@@ -82,34 +87,23 @@ public class LoginPanel extends JPanel {
                         JOptionPane.showMessageDialog(mainFrame, "Something went wrong. Please try again.");
                         return;
                     }
-                    String token = response.getToken();
 
-                    if (token != null) {
-                        SessionManager.jwtToken = token;
+                    if (response.getToken() != null) {
 
-                        try {
-                            String role = JwtUtils.extractRole(token);
-                            Long userId = JwtUtils.extractUserId(token);
+                        String role = response.getRole();
 
-                            SessionManager.role = role;
-                            SessionManager.userId = userId;
-
-                            if ("ROLE_ADMIN".equals(role)) {
-                                mainFrame.showAdminDashboard();
-                            } else {
-                                mainFrame.showPatientDashboard();
-                            }
-                        } catch (Exception ex) {
-                            JOptionPane.showMessageDialog(mainFrame, "Something went wrong");
+                        if ("ROLE_ADMIN".equals(role)) {
+                            mainFrame.showAdminDashboard();
+                        } else {
+                            mainFrame.showPatientDashboard();
                         }
+
                     } else {
                         JOptionPane.showMessageDialog(
                                 mainFrame,
-                                response.getMessage() != null ? response.getMessage() : "Login failed"
-                        );
+                                response.getMessage() != null ? response.getMessage() : "Login failed");
                     }
                 });
-
             }).start();
         });
     }

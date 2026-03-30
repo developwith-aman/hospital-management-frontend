@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 public class PatientAppointmentsDTO {
 
+    private int appointmentId;
     private int numberOfAppointments;
     private int doctorId;
     private String reason;
