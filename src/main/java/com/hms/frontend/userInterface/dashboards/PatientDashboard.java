@@ -22,6 +22,17 @@ public class PatientDashboard extends JPanel {
     public PatientDashboard(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
 
+        JButton goExitBtn = new JButton("EXIT");
+        goExitBtn.setBackground(Color.RED);
+        goExitBtn.setForeground(Color.WHITE);
+        goExitBtn.setFont(new Font("Tahoma", Font.BOLD, 15));
+        goExitBtn.addActionListener(e -> System.exit(0));
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.setOpaque(false); // Keeps the background color of the parent
+        buttonPanel.add(goExitBtn);
+
+
         setLayout(new BorderLayout(20, 20));
         setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 
@@ -82,6 +93,7 @@ public class PatientDashboard extends JPanel {
         detailsPanel.add(payableAmountLabel);
 
         add(detailsPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
         setBackground(Color.PINK);
     }
 
