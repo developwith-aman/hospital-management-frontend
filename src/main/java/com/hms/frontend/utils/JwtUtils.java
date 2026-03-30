@@ -24,14 +24,4 @@ public class JwtUtils {
             return null;
         }
     }
-
-    public static Long extractPatientId(String token) {
-        try {
-            DecodedJWT decodedJWT = JWT.decode(token);
-            return decodedJWT.getClaim("PatientId").asLong();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 }

@@ -3,7 +3,6 @@ package com.hms.frontend.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.hms.frontend.dto.patient.PatientAppointmentsDTO;
 import com.hms.frontend.dto.patient.PatientsDTO;
 import com.hms.frontend.utils.ApiUtil;
 
@@ -11,8 +10,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.List;
 
 public class PatientService {
     private ObjectMapper mapper = new ObjectMapper();

@@ -17,7 +17,6 @@ public class PatientDashboard extends JPanel {
             appointmentCountLabel = new JLabel(), payableAmountLabel = new JLabel();
     private final PatientService patientService = new PatientService();
     private final MainFrame mainFrame;
-
     Font labelFont = new Font("Arial", Font.BOLD, 16);
     Font fieldFont = new Font("Arial", Font.BOLD,16 );
     public PatientDashboard(MainFrame mainFrame) {
