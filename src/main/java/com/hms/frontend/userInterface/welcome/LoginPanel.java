@@ -1,5 +1,6 @@
 package com.hms.frontend.userInterface.welcome;
 
+import com.hms.frontend.dto.login.LoginRequestDTO;
 import com.hms.frontend.dto.login.LoginResponseDTO;
 import com.hms.frontend.service.AuthService;
 import com.hms.frontend.session.SessionManager;
@@ -73,24 +74,19 @@ public class LoginPanel extends JPanel {
             new Thread(() -> {
 
                 LoginResponseDTO response = AuthService.login(username, password);
-                if (response != null) {
+
+                if (response != null && response.getToken() != null) {
+                    String token = response.getToken();
+                    String role = JwtUtils.extractRole(token);
+                    Long userId = JwtUtils.extractUserId(token);
+
                     SessionManager.jwtToken = response.getToken();
-                    SessionManager.role = response.getRole();
-                    SessionManager.userId = response.getUserId();
+                    SessionManager.role = role;
+                    SessionManager.userId = userId;
                     SessionManager.patientId = response.getPatientId();
-                }
-                SwingUtilities.invokeLater(() -> {
 
-                    loginBtn.setEnabled(true);
-
-                    if (response == null) {
-                        JOptionPane.showMessageDialog(mainFrame, "Something went wrong. Please try again.");
-                        return;
-                    }
-
-                    if (response.getToken() != null) {
-
-                        String role = response.getRole();
+                    SwingUtilities.invokeLater(() -> {
+                        loginBtn.setEnabled(true);
 
                         if ("ROLE_ADMIN".equals(role)) {
                             mainFrame.showAdminDashboard();
@@ -98,12 +94,8 @@ public class LoginPanel extends JPanel {
                             mainFrame.showPatientDashboard();
                         }
 
-                    } else {
-                        JOptionPane.showMessageDialog(
-                                mainFrame,
-                                response.getMessage() != null ? response.getMessage() : "Login failed");
-                    }
-                });
+                    });
+                }
             }).start();
         });
     }
