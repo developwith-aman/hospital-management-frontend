@@ -17,8 +17,8 @@ public class PatientDashboard extends JPanel {
             appointmentCountLabel = new JLabel(), payableAmountLabel = new JLabel();
     private final PatientService patientService = new PatientService();
     private final MainFrame mainFrame;
-    Font labelFont = new Font("Arial", Font.BOLD, 16);
-    Font fieldFont = new Font("Arial", Font.BOLD,16 );
+    Font font = new Font("Arial", Font.BOLD, 16);
+
     public PatientDashboard(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
 
@@ -39,56 +39,56 @@ public class PatientDashboard extends JPanel {
         // Patient Details Panel
         JPanel detailsPanel = new JPanel(new GridLayout(0, 2, 5, 10));
         detailsPanel.setBorder(BorderFactory.createTitledBorder("Patient Details"));
-        detailsPanel.setFont(labelFont);
+        detailsPanel.setFont(font);
         detailsPanel.setBackground(Color.PINK);
 
         JLabel idText = new JLabel("Patient ID:");
-        idText.setFont(labelFont);
+        idText.setFont(font);
         detailsPanel.add(idText);
         detailsPanel.add(idLabel);
 
         JLabel nameText = new JLabel("Name:");
-        nameText.setFont(labelFont);
+        nameText.setFont(font);
         detailsPanel.add(nameText);
         detailsPanel.add(nameLabel);
 
         JLabel genderText = new JLabel("Gender:");
-        genderText.setFont(labelFont);
+        genderText.setFont(font);
         detailsPanel.add(genderText);
         detailsPanel.add(genderLabel);
 
         JLabel ageText = new JLabel("Age:");
-        ageText.setFont(labelFont);
+        ageText.setFont(font);
         detailsPanel.add(ageText);
         detailsPanel.add(ageLabel);
 
         JLabel emailText = new JLabel("Email:");
-        emailText.setFont(labelFont);
+        emailText.setFont(font);
         detailsPanel.add(emailText);
         detailsPanel.add(emailLabel);
 
         JLabel bloodGroupText = new JLabel("Blood Group:");
-        bloodGroupText.setFont(labelFont);
+        bloodGroupText.setFont(font);
         detailsPanel.add(bloodGroupText);
         detailsPanel.add(bloodGroupLabel);
 
         JLabel insuredText = new JLabel("Insured:");
-        insuredText.setFont(labelFont);
+        insuredText.setFont(font);
         detailsPanel.add(insuredText);
         detailsPanel.add(insuredLabel);
 
         JLabel arrivalTimeText = new JLabel("Arrival Time:");
-        arrivalTimeText.setFont(labelFont);
+        arrivalTimeText.setFont(font);
         detailsPanel.add(arrivalTimeText);
         detailsPanel.add(arrivalTimeLabel);
 
         JLabel appointmentCountText = new JLabel("Number of Appointments:");
-        appointmentCountText.setFont(labelFont);
+        appointmentCountText.setFont(font);
         detailsPanel.add(appointmentCountText);
         detailsPanel.add(appointmentCountLabel);
 
         JLabel payableAmountText = new JLabel("Payable Amount:");
-        payableAmountText.setFont(labelFont);
+        payableAmountText.setFont(font);
         detailsPanel.add(payableAmountText);
         detailsPanel.add(payableAmountLabel);
 
@@ -103,48 +103,29 @@ public class PatientDashboard extends JPanel {
 
         // fetch patient details
         PatientsDTO patient = patientService.getPatientDetails(patientId);
-//        List<PatientAppointmentsDTO> appointments = patientService.getAppointments(patientId);
 
         if (patient != null) {
-            idLabel.setText(String.valueOf(patient.getPatientID()));
-            idLabel.setFont(fieldFont);
-            idLabel.setForeground(new Color(128, 0, 0));
-
-            nameLabel.setText(patient.getPatientName());
-            nameLabel.setFont(fieldFont);
-            nameLabel.setForeground(new Color(128, 0, 0));
-
-            emailLabel.setText(patient.getEmail());
-            emailLabel.setFont(fieldFont);
-            emailLabel.setForeground(new Color(128, 0, 0));
-
-            ageLabel.setText(String.valueOf(patient.getAge()));
-            ageLabel.setFont(fieldFont);
-            ageLabel.setForeground(new Color(128, 0, 0));
-
-            genderLabel.setText(patient.getGender());
-            genderLabel.setFont(fieldFont);
-            genderLabel.setForeground(new Color(128, 0, 0));
-
-            bloodGroupLabel.setText(patient.getBloodGroup());
-            bloodGroupLabel.setFont(fieldFont);
-            bloodGroupLabel.setForeground(new Color(128, 0, 0));
-
-            insuredLabel.setText(patient.isInsured() ? "Yes" : "No");
-            insuredLabel.setFont(fieldFont);
-            insuredLabel.setForeground(new Color(128, 0, 0));
-
-            arrivalTimeLabel.setText(patient.getArrivalTime().toLocalDate() + " | " + patient.getArrivalTime().toLocalTime());
-            arrivalTimeLabel.setFont(fieldFont);
-            arrivalTimeLabel.setForeground(new Color(128, 0, 0));
-
-            appointmentCountLabel.setText(String.valueOf(patient.getNumberOfAppointments()));
-            appointmentCountLabel.setFont(fieldFont);
-            appointmentCountLabel.setForeground(new Color(128, 0, 0));
-
-            payableAmountLabel.setText(String.valueOf(patient.getPayableAmount()));
-            payableAmountLabel.setFont(fieldFont);
-            payableAmountLabel.setForeground(new Color(128, 0, 0));
+            setField(idLabel, String.valueOf(patient.getPatientID()), font);
+            setField(nameLabel, patient.getPatientName(), font);
+            setField(emailLabel, patient.getEmail(), font);
+            setField(ageLabel, String.valueOf(patient.getAge()), font);
+            setField(genderLabel, patient.getGender(), font);
+            setField(bloodGroupLabel, patient.getBloodGroup(), font);
+            setField(insuredLabel, patient.isInsured() ? "Yes" : "No", font);
+            setField(arrivalTimeLabel,
+                    patient.getArrivalTime().toLocalDate() + " | " +
+                            patient.getArrivalTime().toLocalTime(),
+                    font);
+            setField(appointmentCountLabel,
+                    String.valueOf(patient.getNumberOfAppointments()), font);
+            setField(payableAmountLabel,
+                    "₹ " + patient.getPayableAmount(), font);
         }
+    }
+
+    private void setField(JLabel label, String value, Font font) {
+        label.setText(value);
+        label.setFont(font);
+        label.setForeground(new Color(128, 0, 0));
     }
 }
