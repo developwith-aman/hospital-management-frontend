@@ -53,6 +53,7 @@ public class MainFrame extends JFrame {
 
     public void showAdminDashboard() {
         cardLayout.show(container, "ADMIN_DASHBOARD");
+        setExtendedState(MAXIMIZED_BOTH);
     }
 
     public void showPatientDashboard() {

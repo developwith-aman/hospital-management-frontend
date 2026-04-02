@@ -38,8 +38,16 @@ public class AdminDashboard extends JPanel {
         deptBtn.addActionListener(e -> {
             switchPanel(new com.hms.frontend.userInterface.panels.DepartmentPanel());
         });
+
         JButton staffBtn = createButton("Staff");
+        staffBtn.addActionListener(e -> {
+            switchPanel(new com.hms.frontend.userInterface.panels.StaffPanel());
+        });
+
         JButton billBtn = createButton("Billing");
+        billBtn.addActionListener(e -> {
+            switchPanel(new com.hms.frontend.userInterface.panels.BillingPanel());
+        });
 
         topPanel.add(patientBtn);
         topPanel.add(doctorBtn);
@@ -48,12 +56,17 @@ public class AdminDashboard extends JPanel {
         topPanel.add(billBtn);
 
         // Center Panel
-        contentPanel = new JPanel();
+        contentPanel = new JPanel(new BorderLayout());
         contentPanel.setBackground(Color.WHITE);
+        contentPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
 
         JLabel welcomeLabel = new JLabel("Welcome to Admin Dashboard");
-        welcomeLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+        welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
+        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 30));
+        welcomeLabel.setForeground(Color.DARK_GRAY);
+
         contentPanel.add(welcomeLabel);
+        add(contentPanel, BorderLayout.CENTER);
 
         // Exit
         JButton exitBtn = new JButton("EXIT");

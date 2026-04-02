@@ -7,7 +7,7 @@ public class DepartmentPanel extends JPanel {
 
     public DepartmentPanel() {
 
-        setLayout(new GridLayout(2, 2, 15, 15));
+        setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
         setBackground(Color.WHITE);
 
         add(createButton("Add Dept"));
@@ -19,8 +19,9 @@ public class DepartmentPanel extends JPanel {
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Impact", Font.PLAIN, 25));
-        button.setBackground(new Color(70, 130, 180)); // blue
+        button.setBackground(new Color(0,128,128)); // Teal
         button.setForeground(Color.WHITE);
+        button.setPreferredSize(new Dimension(250, 50));
         return button;
     }
 }

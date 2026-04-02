@@ -7,7 +7,7 @@ public class PatientPanel extends JPanel {
 
     public PatientPanel() {
 
-        setLayout(new GridLayout(3, 2, 15, 15));
+        setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
         setBackground(Color.WHITE);
 
         add(createButton("Add Patient"));
@@ -26,6 +26,7 @@ public class PatientPanel extends JPanel {
         button.setFont(new Font("Impact", Font.PLAIN, 25));
         button.setBackground(new Color(0,128,128)); // Teal
         button.setForeground(Color.WHITE);
+        button.setPreferredSize(new Dimension(250, 50));
         return button;
     }
 }
