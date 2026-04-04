@@ -28,7 +28,7 @@ public class ViewAllPatientsPanel extends JPanel {
         // The Table Model
         // Define your column headers here
         String[] columnNames = {"Patient ID", "Name", "Age", "Gender", "Blood Group",
-                "Email", "Insured", "Arrival Time", "Appointments", "Payable Amount"};
+                "Email", "Has Insurance", "Arrival Time", "Appointments", "Payable Amount"};
 
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
@@ -68,7 +68,7 @@ public class ViewAllPatientsPanel extends JPanel {
                             patient.getGender(),
                             patient.getBloodGroup(),
                             patient.getEmail(),
-                            patient.isInsured(),
+                            patient.isInsured() ? "YES" : "NO",
                             patient.getArrivalTime(),
                             patient.getNumberOfAppointments(),
                             patient.getPayableAmount()
@@ -78,7 +78,10 @@ public class ViewAllPatientsPanel extends JPanel {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Failed to load patient data from server.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Failed to load patient data from server.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 }

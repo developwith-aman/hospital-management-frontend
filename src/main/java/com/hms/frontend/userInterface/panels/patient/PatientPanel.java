@@ -60,6 +60,8 @@ public class PatientPanel extends JPanel {
         add(topWrapper, BorderLayout.NORTH);
         add(dynamicContentContainer, BorderLayout.SOUTH);
 
+
+        // Action Listeners :
         // Add Patient Button
         addBtn.addActionListener(e -> {
             dynamicContentContainer.removeAll();
@@ -68,9 +70,7 @@ public class PatientPanel extends JPanel {
             dynamicContentContainer.repaint();
         });
 
-
-        // Action Listeners :
-        // View All
+        // View All Button
         viewAllBtn.addActionListener(e -> {
             dynamicContentContainer.removeAll();
             dynamicContentContainer.add(new ViewAllPatientsPanel(), BorderLayout.SOUTH);
@@ -78,7 +78,7 @@ public class PatientPanel extends JPanel {
             dynamicContentContainer.repaint();
         });
 
-        // Search Button
+        // Search Patient Button
         searchBtn.addActionListener(e -> {
             String input = JOptionPane.showInputDialog(this, "Enter Patient ID: ");
 
@@ -101,6 +101,19 @@ public class PatientPanel extends JPanel {
 
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(this, "Invalid ID!");
+                }
+            }
+        });
+
+        // Update Email Button
+        updateEmailBtn.addActionListener(e -> {
+            String id = JOptionPane.showInputDialog(this, "Enter Patient ID: ");
+
+            if (id != null && !id.trim().isEmpty()){
+                try {
+                    Long patientId = Long.parseLong(id);
+                    PatientsDTO patient = patientService.getPatientDetails(patientId);
+
                 }
             }
         });
