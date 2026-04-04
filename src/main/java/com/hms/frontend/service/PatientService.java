@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hms.frontend.api.ApiClient;
+import com.hms.frontend.dto.patient.AddNewPatientDTO;
 import com.hms.frontend.dto.patient.PatientsDTO;
 import com.hms.frontend.utils.ApiUtil;
 
@@ -19,6 +20,14 @@ public class PatientService {
 
         return ApiClient.getWithToken(
                 "/patients/fetch/patient-details/" + patientId,
+                PatientsDTO.class
+        );
+    }
+
+    public PatientsDTO addNewPatient(AddNewPatientDTO newPatientDTO) {
+        return ApiClient.postWithToken(
+                "/patients/add/new/patient",
+                newPatientDTO,
                 PatientsDTO.class
         );
     }
