@@ -98,28 +98,40 @@ public class PatientDashboard extends JPanel {
     }
 
     public void loadPatientData() {
-        Long userId = SessionManager.userId;
-        Long patientId = SessionManager.patientId;
+        try {
+            Long userId = SessionManager.userId;
+            Long patientId = SessionManager.patientId;
 
-        // fetch patient details
-        PatientsDTO patient = patientService.getPatientDetails(patientId);
+            // fetch patient details
+            PatientsDTO patient = patientService.getPatientDetails(patientId);
 
-        if (patient != null) {
-            setField(idLabel, String.valueOf(patient.getPatientID()), font);
-            setField(nameLabel, patient.getPatientName(), font);
-            setField(emailLabel, patient.getEmail(), font);
-            setField(ageLabel, String.valueOf(patient.getAge()), font);
-            setField(genderLabel, patient.getGender(), font);
-            setField(bloodGroupLabel, patient.getBloodGroup(), font);
-            setField(insuredLabel, patient.isInsured() ? "Yes" : "No", font);
-            setField(arrivalTimeLabel,
-                    patient.getArrivalTime().toLocalDate() + " | " +
-                            patient.getArrivalTime().toLocalTime(),
-                    font);
-            setField(appointmentCountLabel,
-                    String.valueOf(patient.getNumberOfAppointments()), font);
-            setField(payableAmountLabel,
-                    "₹ " + patient.getPayableAmount(), font);
+            if (patient != null) {
+                setField(idLabel, String.valueOf(patient.getPatientID()), font);
+                setField(nameLabel, patient.getPatientName(), font);
+                setField(emailLabel, patient.getEmail(), font);
+                setField(ageLabel, String.valueOf(patient.getAge()), font);
+                setField(genderLabel, patient.getGender(), font);
+                setField(bloodGroupLabel, patient.getBloodGroup(), font);
+                setField(insuredLabel, patient.isInsured() ? "Yes" : "No", font);
+                setField(arrivalTimeLabel,
+                        patient.getArrivalTime().toLocalDate() + " | " +
+                                patient.getArrivalTime().toLocalTime(),
+                        font);
+                setField(appointmentCountLabel,
+                        String.valueOf(patient.getNumberOfAppointments()), font);
+                setField(payableAmountLabel,
+                        "₹ " + patient.getPayableAmount(), font);
+            }else {
+                JOptionPane.showMessageDialog(this,
+                        "No patient found with ID: " + patientId + ". \nAccess denied or patient does not exist.",
+                        "Patient Not Found",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                    "Cannot load Patient details", "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
