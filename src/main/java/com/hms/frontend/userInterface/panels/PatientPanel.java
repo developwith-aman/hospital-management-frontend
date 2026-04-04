@@ -21,7 +21,7 @@ public class PatientPanel extends JPanel {
         // Button Bar (on TOP)
         JPanel buttonBar = new JPanel(new GridLayout(2, 3, 20, 15));
         buttonBar.setBackground(Color.WHITE);
-        buttonBar.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        buttonBar.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         JButton addBtn = createButton("Add Patient");  // POST
         JButton viewAllBtn = createButton("View All");  // GET
@@ -68,11 +68,14 @@ public class PatientPanel extends JPanel {
             dynamicContentContainer.repaint();
         });
 
+
+        // Action Listeners :
         // View All
         viewAllBtn.addActionListener(e -> {
-//            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
-//            frame.setContentPane(new ShowAllPatients());
-//            frame.revalidate();
+            dynamicContentContainer.removeAll();
+            dynamicContentContainer.add(new ViewAllPatientsPanel(), BorderLayout.SOUTH);
+            dynamicContentContainer.revalidate();
+            dynamicContentContainer.repaint();
         });
 
         // Search Button
@@ -84,6 +87,14 @@ public class PatientPanel extends JPanel {
                     Long patientId = Long.parseLong(input);
                     PatientsDTO patient = patientService.getPatientDetails(patientId);
 
+                    if (patient == null) {
+                        // 1. Patient not found! Show a popup and STOP.
+                        JOptionPane.showMessageDialog(this,
+                                "No patient found with ID: " + input,
+                                "Not Found",
+                                JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
                     frame.setContentPane(new PatientDetailsPanel(patient));
                     frame.revalidate();
@@ -94,7 +105,6 @@ public class PatientPanel extends JPanel {
             }
         });
 
-
         // Back Button Logic
         backButton.addActionListener(e -> {
             MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(this);
@@ -103,7 +113,6 @@ public class PatientPanel extends JPanel {
             mainFrame.repaint();
         });
     }
-
 
     private JButton createButton(String text) {
         JButton button = new JButton(text);
