@@ -1,9 +1,10 @@
-package com.hms.frontend.userInterface.panels;
+package com.hms.frontend.userInterface.panels.patient;
 
 import com.hms.frontend.dto.patient.PatientsDTO;
 import com.hms.frontend.service.PatientService;
 import com.hms.frontend.userInterface.MainFrame;
 import com.hms.frontend.userInterface.dashboards.AdminDashboard;
+import com.hms.frontend.userInterface.panels.AddNewPatientPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -107,15 +108,7 @@ public class PatientPanel extends JPanel {
 
         // Update Email Button
         updateEmailBtn.addActionListener(e -> {
-            String id = JOptionPane.showInputDialog(this, "Enter Patient ID: ");
-
-            if (id != null && !id.trim().isEmpty()){
-                try {
-                    Long patientId = Long.parseLong(id);
-                    PatientsDTO patient = patientService.getPatientDetails(patientId);
-
-                }
-            }
+            EmailUpdatePanel.showDialog(this, patientService);
         });
 
         // Back Button Logic
