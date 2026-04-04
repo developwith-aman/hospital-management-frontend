@@ -12,12 +12,14 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class PatientService {
     private ObjectMapper mapper = new ObjectMapper();
 
     public PatientsDTO getPatientDetails(Long patientId) {
-
         return ApiClient.getWithToken(
                 "/patients/fetch/patient-details/" + patientId,
                 PatientsDTO.class
@@ -30,5 +32,17 @@ public class PatientService {
                 newPatientDTO,
                 PatientsDTO.class
         );
+    }
+
+    public List<PatientsDTO> getAllPatients() {
+        PatientsDTO[] patientsArray = ApiClient.getWithToken(
+                "/patients/all/patients",
+                PatientsDTO[].class);
+
+//        If it's null, return an empty list to avoid crashes
+        if (patientsArray == null) {
+            return new ArrayList<>();
+        }
+        return Arrays.asList(patientsArray);
     }
 }
