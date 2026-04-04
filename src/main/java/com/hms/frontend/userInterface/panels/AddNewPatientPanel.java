@@ -1,10 +1,10 @@
 package com.hms.frontend.userInterface.panels;
 
-import com.hms.frontend.api.ApiClient;
-import com.hms.frontend.dto.InsuranceDTO;
+import com.hms.frontend.dto.insurance.InsuranceDTO;
 import com.hms.frontend.dto.patient.AddNewPatientDTO;
 import com.hms.frontend.dto.patient.PatientsDTO;
 import com.hms.frontend.dto.enums.BloodGroups;
+import com.hms.frontend.service.PatientService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,70 +12,118 @@ import java.time.LocalDateTime;
 
 public class AddNewPatientPanel extends JPanel {
 
-    private JTextField nameField = new JTextField(15);
-    private JTextField ageField = new JTextField(15);
-    private JTextField emailField = new JTextField(15);
-    private JTextField payableField = new JTextField(15);
+    private JTextField nameField = new JTextField();
+    private JTextField ageField = new JTextField();
+    private JTextField emailField = new JTextField();
+    private JTextField payableField = new JTextField();
 
     private JComboBox<String> genderBox = new JComboBox<>(new String[]{"MALE", "FEMALE"});
     private JComboBox<BloodGroups> bloodGroupBox = new JComboBox<>(BloodGroups.values());
 
-    private JCheckBox insuranceCheck = new JCheckBox("Has Insurance");
-    private JPanel insurancePanel = new JPanel(new GridLayout(0, 2, 10, 10));
-    private JTextField policyNumberField = new JTextField(15);
-    private JTextField providerField = new JTextField(15);
-    private JTextField effectiveDateField = new JTextField(15);
-    private JTextField expiryDateField = new JTextField(15);
+    private JCheckBox insuranceCheck = new JCheckBox("Insurance :");
+    private JTextField policyNumberField = new JTextField();
+    private JTextField providerField = new JTextField();
+    private JTextField effectiveDateField = new JTextField();
+    private JTextField expiryDateField = new JTextField();
 
     public AddNewPatientPanel() {
+
         setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        setBackground(Color.WHITE);
 
-        JPanel form = new JPanel(new GridLayout(0, 2, 10, 10));
+        JPanel mainBox = new JPanel(new GridLayout(1, 2, 40, 0));
+        mainBox.setBackground(Color.WHITE);
 
-        form.add(new JLabel("Name"));
-        form.add(nameField);
-        form.add(new JLabel("Gender"));
-        form.add(genderBox);
-        form.add(new JLabel("Age"));
-        form.add(ageField);
-        form.add(new JLabel("Email"));
-        form.add(emailField);
-        form.add(new JLabel("Blood Group"));
-        form.add(bloodGroupBox);
-        form.add(new JLabel("Payable Amount"));
-        form.add(payableField);
+        mainBox.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(Color.BLACK, 2),
+                BorderFactory.createEmptyBorder(20, 20, 20, 20)
+        ));
 
-        // Insurance toggle
-        form.add(new JLabel("Insurance"));
-        form.add(insuranceCheck);
+        JPanel leftPanel = new JPanel(new GridBagLayout());
+        leftPanel.setBackground(Color.WHITE);
+        GridBagConstraints gbcLeft = new GridBagConstraints();
+        gbcLeft.fill = GridBagConstraints.HORIZONTAL;
+        gbcLeft.insets = new Insets(10, 10, 10, 10); // Spacing between rows
 
-        // Insurance panel (initially hidden)
-        insurancePanel.add(new JLabel("Policy No"));
-        insurancePanel.add(policyNumberField);
-        insurancePanel.add(new JLabel("Provider"));
-        insurancePanel.add(providerField);
-        insurancePanel.add(new JLabel("Effective Date"));
-        insurancePanel.add(effectiveDateField);
-        insurancePanel.add(new JLabel("Expiry Date"));
-        insurancePanel.add(expiryDateField);
+        int leftRow = 0;
+        addFormRow(leftPanel, gbcLeft, "Name:", nameField, leftRow++);
+        addFormRow(leftPanel, gbcLeft, "Gender:", genderBox, leftRow++);
+        addFormRow(leftPanel, gbcLeft, "Age:", ageField, leftRow++);
+        addFormRow(leftPanel, gbcLeft, "Email:", emailField, leftRow++);
+        addFormRow(leftPanel, gbcLeft, "Blood Group:", bloodGroupBox, leftRow++);
+        addFormRow(leftPanel, gbcLeft, "Payable Amount:", payableField, leftRow++);
 
-        insurancePanel.setVisible(false);
+        // --- RIGHT COLUMN: Insurance Info ---
+        JPanel rightPanel = new JPanel(new GridBagLayout());
+        rightPanel.setBackground(Color.WHITE);
+        GridBagConstraints gbcRight = new GridBagConstraints();
+        gbcRight.fill = GridBagConstraints.HORIZONTAL;
+        gbcRight.insets = new Insets(10, 10, 10, 10);
 
-        // Toggle logic
-        insuranceCheck.addActionListener(e -> {
-            insurancePanel.setVisible(insuranceCheck.isSelected());
-            revalidate();
-        });
+        int rightRow = 0;
 
+        // The "Insurance :" Header/Checkbox
+        gbcRight.gridx = 0; gbcRight.gridy = rightRow++;
+        gbcRight.gridwidth = 2; // Span across both label and field columns
+        insuranceCheck.setFont(new Font("SansSerif", Font.BOLD, 14));
+        insuranceCheck.setBackground(Color.WHITE);
+        rightPanel.add(insuranceCheck, gbcRight);
+
+        // Reset grid width to 1 for the normal fields
+        gbcRight.gridwidth = 1;
+        addFormRow(rightPanel, gbcRight, "Policy No:", policyNumberField, rightRow++);
+        addFormRow(rightPanel, gbcRight, "Provider:", providerField, rightRow++);
+        addFormRow(rightPanel, gbcRight, "Effective Date:", effectiveDateField, rightRow++);
+        addFormRow(rightPanel, gbcRight, "Expiry Date:", expiryDateField, rightRow++);
+
+        // Add both columns into the main bordered box
+        mainBox.add(leftPanel);
+        mainBox.add(rightPanel);
+
+        // --- TOGGLE LOGIC ---
+        toggleInsuranceFields(false);
+        insuranceCheck.addActionListener(e -> toggleInsuranceFields(insuranceCheck.isSelected()));
+
+        // --- SUBMIT BUTTON ---
         JButton submitBtn = new JButton("Add Patient");
+        submitBtn.setPreferredSize(new Dimension(150, 40));
         submitBtn.addActionListener(e -> handleSubmit());
 
-        JPanel wrapper = new JPanel(new BorderLayout());
-        wrapper.add(form, BorderLayout.NORTH);
-        wrapper.add(insurancePanel, BorderLayout.CENTER);
-        wrapper.add(submitBtn, BorderLayout.SOUTH);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(Color.WHITE);
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(15, 0, 0, 0));
+        buttonPanel.add(submitBtn);
 
-        add(wrapper, BorderLayout.CENTER);
+        // --- ASSEMBLE ---
+        JPanel topAnchor = new JPanel(new BorderLayout());
+        topAnchor.setBackground(Color.WHITE);
+        topAnchor.add(mainBox, BorderLayout.NORTH);
+
+        add(topAnchor, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
+    }
+
+    private void addFormRow(JPanel panel, GridBagConstraints gbc, String labelText, Component field, int row) {
+        gbc.gridy = row;
+
+        // Label settings
+        gbc.gridx = 0;
+        gbc.weightx = 0.3; // Give label 30% of the horizontal space
+        panel.add(new JLabel(labelText), gbc);
+
+        // Input Field settings
+        gbc.gridx = 1;
+        gbc.weightx = 0.7; // Give text field 70% of the horizontal space
+        panel.add(field, gbc);
+    }
+
+    // Helper method to gray-out insurance fields if the checkbox isn't checked
+    private void toggleInsuranceFields(boolean enabled) {
+        policyNumberField.setEnabled(enabled);
+        providerField.setEnabled(enabled);
+        effectiveDateField.setEnabled(enabled);
+        expiryDateField.setEnabled(enabled);
     }
 
     private void handleSubmit() {
@@ -89,7 +137,6 @@ public class AddNewPatientPanel extends JPanel {
             dto.setPayableAmount(Double.parseDouble(payableField.getText()));
             dto.setBloodGroup((BloodGroups) bloodGroupBox.getSelectedItem());
 
-            // Insurance logic
             if (insuranceCheck.isSelected()) {
                 InsuranceDTO insurance = new InsuranceDTO();
 
@@ -101,14 +148,19 @@ public class AddNewPatientPanel extends JPanel {
                 dto.setInsurance(insurance);
             }
 
-            // API CALL
-            ApiClient.postWithToken("/patients/add/new/patient", dto, PatientsDTO.class);
+            PatientService patientService = new PatientService();
+            PatientsDTO savedPatient = patientService.addNewPatient(dto);
 
-            JOptionPane.showMessageDialog(this, "Patient Added Successfully!");
-
+            if (savedPatient != null){
+                JOptionPane.showMessageDialog(this,
+                        "Patient Added Successfully! ID : "+ savedPatient.getPatientID());
+            }else {
+                JOptionPane.showMessageDialog(this,
+                        "Failed to save patient.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Error while adding patient!");
+            JOptionPane.showMessageDialog(this, "Error while adding patient! Please check your input formatting.");
         }
     }
 }
