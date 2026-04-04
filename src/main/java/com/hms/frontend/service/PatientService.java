@@ -4,8 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hms.frontend.api.ApiClient;
+import com.hms.frontend.dto.email.EmailUpdateResponseDTO;
+import com.hms.frontend.dto.email.UpdateEmailDTO;
 import com.hms.frontend.dto.patient.AddNewPatientDTO;
 import com.hms.frontend.dto.patient.PatientsDTO;
+import com.hms.frontend.userInterface.panels.patient.EmailUpdatePanel;
 import com.hms.frontend.utils.ApiUtil;
 
 import java.io.BufferedReader;
@@ -44,5 +47,16 @@ public class PatientService {
             return new ArrayList<>();
         }
         return Arrays.asList(patientsArray);
+    }
+
+    public EmailUpdateResponseDTO updatePatientEmail(Long patientId, String newEmail) {
+
+        UpdateEmailDTO updateEmailDTO = new UpdateEmailDTO(newEmail);
+
+        return ApiClient.patchWithToken(
+                "/patients/update/email/" + patientId,
+                updateEmailDTO,
+                EmailUpdateResponseDTO.class
+        );
     }
 }
