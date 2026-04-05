@@ -123,13 +123,46 @@ public class ApiClient {
             }
 
             HttpRequest request = builder.build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            HttpResponse<String> response = client.send(request,
+                    HttpResponse.BodyHandlers.ofString());
 
             if (response.statusCode() >= 400) {
                 return null;
             }
             return mapper.readValue(response.body(), responseType);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static <R> R deleteWithToken(String endpoint, Class<R> responseType) {
+        try {
+            String url = BASE_URL + endpoint;
+
+            HttpClient client = HttpClient.newHttpClient();
+            String token = SessionManager.jwtToken;
+
+            HttpRequest.Builder builder = HttpRequest.newBuilder()
+                    .uri(URI.create(url))
+                    .DELETE() // This specifies it's a DELETE request!
+                    .header("Content-Type", "application/json");
+            if (token != null && !token.isEmpty()) {
+                builder.header("Authorization", "Bearer " + token);
+            }
+
+            HttpRequest request = builder.build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            if (response.statusCode() >= 400) {
+                return null;
+            }
+
+            if (response.body() == null || response.body().trim().isEmpty()) {
+                return null;
+            }
+            return mapper.readValue(response.body(), responseType);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
