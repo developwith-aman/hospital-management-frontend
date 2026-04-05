@@ -140,6 +140,14 @@ public class PatientPanel extends JPanel {
             }
         });
 
+        // Book Appointment Button
+        bookBtn.addActionListener(e -> {
+            dynamicContentContainer.removeAll();
+            dynamicContentContainer.add(new BookAppointmentPanel(), BorderLayout.SOUTH);
+            dynamicContentContainer.revalidate();
+            dynamicContentContainer.repaint();
+        });
+
         // Back Button Logic
         backButton.addActionListener(e -> {
             MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(this);
