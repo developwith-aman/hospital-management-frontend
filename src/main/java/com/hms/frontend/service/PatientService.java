@@ -59,4 +59,12 @@ public class PatientService {
                 EmailUpdateResponseDTO.class
         );
     }
+
+    public PatientsDTO dischargePatient(Long patientId) {
+
+        return ApiClient.deleteWithToken(
+                "/patients/discharge/patient/" + patientId,
+                PatientsDTO.class
+        );
+    }
 }
