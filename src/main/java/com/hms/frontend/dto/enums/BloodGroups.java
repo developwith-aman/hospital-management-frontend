@@ -1,4 +1,4 @@
-package com.hms.frontend.entity;
+package com.hms.frontend.dto.enums;
 
 public enum BloodGroups {
 

@@ -88,7 +88,7 @@ public class SignUpPanel extends JPanel {
                 SignUpResponseDTO response = AuthService.signup(username, email, password);
 
                 if (response != null) {
-                    String message = "User name: " + response.getUsername() +
+                    String message = "User : " + response.getUsername() +
                             " is successfully registered.\nNow you can proceed to login.";
 
                     JOptionPane.showMessageDialog(mainFrame, message);

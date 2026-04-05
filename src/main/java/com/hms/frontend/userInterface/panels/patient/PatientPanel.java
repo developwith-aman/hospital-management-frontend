@@ -4,7 +4,6 @@ import com.hms.frontend.dto.patient.PatientsDTO;
 import com.hms.frontend.service.PatientService;
 import com.hms.frontend.userInterface.MainFrame;
 import com.hms.frontend.userInterface.dashboards.AdminDashboard;
-import com.hms.frontend.userInterface.panels.AddNewPatientPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -109,6 +108,36 @@ public class PatientPanel extends JPanel {
         // Update Email Button
         updateEmailBtn.addActionListener(e -> {
             EmailUpdatePanel.showDialog(this, patientService);
+        });
+
+        // Discharge Button
+        dischargeBtn.addActionListener(e -> {
+            String patientId = JOptionPane.showInputDialog(this, "Enter Patient Id to delete");
+
+            if (patientId != null && !patientId.trim().isEmpty()) {
+                try {
+                    Long id = Long.parseLong(patientId);
+                    PatientsDTO patient = patientService.dischargePatient(id);
+
+                        JOptionPane.showMessageDialog(this,
+                                "Patient " + patient.getPatientName() + " has been successfully discharged!",
+                                "Success",
+                                JOptionPane.INFORMATION_MESSAGE);
+
+                } catch (IllegalArgumentException exception) {
+                    JOptionPane.showMessageDialog(this,
+                            exception.getMessage(), // This will print "No patient found with this id..."
+                            "Not Found",
+                            JOptionPane.WARNING_MESSAGE);
+                } catch (Exception exception) {
+                    // A fallback for any other random errors (database crash, network issue, etc.)
+                    exception.printStackTrace();
+                    JOptionPane.showMessageDialog(this,
+                            "An unexpected error occurred.",
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE);
+                }
+            }
         });
 
         // Back Button Logic

@@ -1,7 +1,7 @@
 package com.hms.frontend.dto.patient;
 
 
-import com.hms.frontend.dto.InsuranceDTO;
+import com.hms.frontend.dto.insurance.InsuranceDTO;
 import com.hms.frontend.dto.enums.BloodGroups;
 import lombok.Getter;
 import lombok.Setter;

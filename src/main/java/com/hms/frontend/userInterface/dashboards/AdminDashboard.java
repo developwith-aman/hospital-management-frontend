@@ -1,6 +1,7 @@
 package com.hms.frontend.userInterface.dashboards;
 
 import com.hms.frontend.userInterface.MainFrame;
+import com.hms.frontend.userInterface.panels.patient.PatientPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -26,7 +27,7 @@ public class AdminDashboard extends JPanel {
 
         JButton patientBtn = createButton("Patients");
         patientBtn.addActionListener(e -> {
-            switchPanel(new com.hms.frontend.userInterface.panels.PatientPanel());
+            switchPanel(new PatientPanel());
         });
 
         JButton doctorBtn = createButton("Doctors");
