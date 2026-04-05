@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hms.frontend.api.ApiClient;
+import com.hms.frontend.dto.appointment.NewAppointmentDTO;
 import com.hms.frontend.dto.email.EmailUpdateResponseDTO;
 import com.hms.frontend.dto.email.UpdateEmailDTO;
 import com.hms.frontend.dto.patient.AddNewPatientDTO;
@@ -65,6 +66,15 @@ public class PatientService {
         return ApiClient.deleteWithToken(
                 "/patients/discharge/patient/" + patientId,
                 PatientsDTO.class
+        );
+    }
+
+    public NewAppointmentDTO bookNewAppointment(NewAppointmentDTO appointmentDTO) {
+
+        return ApiClient.postWithToken(
+                "/patients/book/appointment",
+                appointmentDTO,
+                NewAppointmentDTO.class
         );
     }
 }
