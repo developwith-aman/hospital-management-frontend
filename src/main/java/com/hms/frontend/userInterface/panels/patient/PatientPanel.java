@@ -1,5 +1,6 @@
 package com.hms.frontend.userInterface.panels.patient;
 
+import com.hms.frontend.dto.appointment.NewAppointmentDTO;
 import com.hms.frontend.dto.patient.PatientsDTO;
 import com.hms.frontend.service.PatientService;
 import com.hms.frontend.userInterface.MainFrame;
@@ -119,10 +120,10 @@ public class PatientPanel extends JPanel {
                     Long id = Long.parseLong(patientId);
                     PatientsDTO patient = patientService.dischargePatient(id);
 
-                        JOptionPane.showMessageDialog(this,
-                                "Patient " + patient.getPatientName() + " has been successfully discharged!",
-                                "Success",
-                                JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this,
+                            "Patient " + patient.getPatientName() + " has been successfully discharged!",
+                            "Success",
+                            JOptionPane.INFORMATION_MESSAGE);
 
                 } catch (IllegalArgumentException exception) {
                     JOptionPane.showMessageDialog(this,
@@ -146,6 +147,59 @@ public class PatientPanel extends JPanel {
             dynamicContentContainer.add(new BookAppointmentPanel(), BorderLayout.SOUTH);
             dynamicContentContainer.revalidate();
             dynamicContentContainer.repaint();
+        });
+
+        // Delete Appointment Button
+        deleteAppBtn.addActionListener(e -> {
+            JTextField appointmentIdField = new JTextField();
+            JTextField patientIdField = new JTextField();
+
+            Object[] message = {
+                    "Enter Appointment ID:", appointmentIdField,
+                    "Enter Patient ID:", patientIdField
+            };
+
+            int option = JOptionPane.showConfirmDialog(
+                    this,
+                    message,
+                    "Delete Appointment",
+                    JOptionPane.OK_CANCEL_OPTION
+            );
+
+            if (option == JOptionPane.OK_OPTION) {
+                String appointmentId = appointmentIdField.getText();
+                String patientId = patientIdField.getText();
+
+                if (!appointmentId.trim().isEmpty() && !patientId.trim().isEmpty()) {
+
+                    try {
+                        Long appId = Long.parseLong(appointmentId);
+                        Long patId = Long.parseLong(patientId);
+
+                        NewAppointmentDTO appointmentDTO = patientService.deleteAppointment(appId, patId);
+
+                        JOptionPane.showMessageDialog(this,
+                                "Appointment with doctor id: " + appointmentDTO.getDoctorId() + "\n" +
+                                        "for: " + appointmentDTO.getReason() + "\n" +
+                                        "on: " + appointmentDTO.getAppointment_time() + "\n" +
+                                        "has been successfully deleted!" + "\n" +
+                                        "for patient Id: " + appointmentDTO.getPatientId(),
+                                "Success",
+                                JOptionPane.INFORMATION_MESSAGE);
+
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(this,
+                                "Please enter valid numbers for the IDs.",
+                                "Invalid Input",
+                                JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this,
+                            "Both fields are required!",
+                            "Warning",
+                            JOptionPane.WARNING_MESSAGE);
+                }
+            }
         });
 
         // Back Button Logic
