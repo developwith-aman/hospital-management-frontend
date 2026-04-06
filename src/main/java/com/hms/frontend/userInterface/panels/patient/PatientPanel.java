@@ -31,6 +31,7 @@ public class PatientPanel extends JPanel {
         JButton dischargeBtn = createButton("Discharge");  // DELETE
         JButton bookBtn = createButton("Book Appointment");  // POST
         JButton deleteAppBtn = createButton("Delete Appointment");  // DELETE
+        JButton showAllAppointments = createButton("All Appointments"); // GET
 
         buttonBar.add(addBtn);
         buttonBar.add(viewAllBtn);
@@ -39,6 +40,7 @@ public class PatientPanel extends JPanel {
         buttonBar.add(dischargeBtn);
         buttonBar.add(bookBtn);
         buttonBar.add(deleteAppBtn);
+        buttonBar.add(showAllAppointments);
 
         JButton backButton = new JButton("← Back");
         backButton.setFont(new Font("Arial", Font.BOLD, 25));
@@ -158,7 +160,6 @@ public class PatientPanel extends JPanel {
                     "Enter Appointment ID:", appointmentIdField,
                     "Enter Patient ID:", patientIdField
             };
-
             int option = JOptionPane.showConfirmDialog(
                     this,
                     message,
@@ -171,7 +172,6 @@ public class PatientPanel extends JPanel {
                 String patientId = patientIdField.getText();
 
                 if (!appointmentId.trim().isEmpty() && !patientId.trim().isEmpty()) {
-
                     try {
                         Long appId = Long.parseLong(appointmentId);
                         Long patId = Long.parseLong(patientId);
@@ -200,6 +200,14 @@ public class PatientPanel extends JPanel {
                             JOptionPane.WARNING_MESSAGE);
                 }
             }
+        });
+
+        // Show All Appointments button
+        showAllAppointments.addActionListener(e -> {
+            dynamicContentContainer.removeAll();
+            dynamicContentContainer.add(new ShowAppointmentPanel(), BorderLayout.SOUTH);
+            dynamicContentContainer.revalidate();
+            dynamicContentContainer.repaint();
         });
 
         // Back Button Logic

@@ -137,7 +137,7 @@ public class ApiClient {
         }
     }
 
-    public static <R> R deleteWithToken(String endpoint, Class<R> responseType) {
+    public static <R> R  deleteWithToken(String endpoint, Class<R> responseType) {
         try {
             String url = BASE_URL + endpoint;
 
