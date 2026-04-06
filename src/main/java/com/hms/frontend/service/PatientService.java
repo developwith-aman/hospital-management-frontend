@@ -77,4 +77,17 @@ public class PatientService {
                 NewAppointmentDTO.class
         );
     }
+
+    public NewAppointmentDTO deleteAppointment(Long appointmentId, Long patientId) {
+
+        String endpoint = String.format("/patients/delete/appointmentID/%d/patientID/%d", appointmentId , patientId);
+        NewAppointmentDTO deletedAppointment = ApiClient.deleteWithToken(
+                endpoint,
+                NewAppointmentDTO.class
+        );
+        if (deletedAppointment == null) {
+            throw new IllegalArgumentException("Could not delete appointment. Please check the IDs.");
+        }
+        return deletedAppointment;
+    }
 }
