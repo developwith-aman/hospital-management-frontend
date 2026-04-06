@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hms.frontend.api.ApiClient;
+import com.hms.frontend.dto.appointment.AppointmentDTO;
 import com.hms.frontend.dto.appointment.NewAppointmentDTO;
 import com.hms.frontend.dto.email.EmailUpdateResponseDTO;
 import com.hms.frontend.dto.email.UpdateEmailDTO;
@@ -89,5 +90,17 @@ public class PatientService {
             throw new IllegalArgumentException("Could not delete appointment. Please check the IDs.");
         }
         return deletedAppointment;
+    }
+
+    public List<AppointmentDTO> getAllAppointments() {
+
+        AppointmentDTO[] appointmentArray = ApiClient.getWithToken(
+                "/patients/get-all/appointments",
+                AppointmentDTO[].class
+        );
+        if (appointmentArray == null) {
+            return new ArrayList<>();
+        }
+        return Arrays.asList(appointmentArray);
     }
 }
