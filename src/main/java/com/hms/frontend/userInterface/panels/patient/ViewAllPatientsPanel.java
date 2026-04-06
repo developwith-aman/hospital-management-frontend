@@ -26,7 +26,6 @@ public class ViewAllPatientsPanel extends JPanel {
         add(headerLabel, BorderLayout.NORTH);
 
         // The Table Model
-        // Define your column headers here
         String[] columnNames = {"Patient ID", "Name", "Age", "Gender", "Blood Group",
                 "Email", "Has Insurance", "Arrival Time", "Appointments", "Payable Amount"};
 

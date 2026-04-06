@@ -27,7 +27,7 @@ public class AdminDashboard extends JPanel {
 
         JButton patientBtn = createButton("Patients");
         patientBtn.addActionListener(e -> {
-            switchPanel(new PatientPanel());
+            switchPanel(new com.hms.frontend.userInterface.panels.patient.PatientPanel());
         });
 
         JButton doctorBtn = createButton("Doctors");

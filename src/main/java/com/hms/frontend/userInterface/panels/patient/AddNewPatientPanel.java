@@ -1,4 +1,4 @@
-package com.hms.frontend.userInterface.panels;
+package com.hms.frontend.userInterface.panels.patient;
 
 import com.hms.frontend.dto.insurance.InsuranceDTO;
 import com.hms.frontend.dto.patient.AddNewPatientDTO;

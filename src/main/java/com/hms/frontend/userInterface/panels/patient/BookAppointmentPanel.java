@@ -84,14 +84,15 @@ public class BookAppointmentPanel extends JPanel {
             PatientService patientService = new PatientService();
             NewAppointmentDTO bookedAppointment = patientService.bookNewAppointment(dto);
 
-            if (bookedAppointment != null){
+            if (bookedAppointment != null) {
                 JOptionPane.showMessageDialog(this,
                         "Appointment Booked :)" + "\n" +
-                        "Patient id : " + bookedAppointment.getPatientId() + "\n" +
-                        "Doctor id : " + bookedAppointment.getDoctorId() + "\n" +
-                        "Appointment Time : " + bookedAppointment.getAppointment_time() + "\n" +
-                        "Reason : " + bookedAppointment.getReason());
-            }else {
+                                "Patient id : " + bookedAppointment.getPatientId() + "\n" +
+                                "Doctor id : " + bookedAppointment.getDoctorId() + "\n" +
+                                "Appointment Time : " + bookedAppointment.getAppointment_time() + "\n" +
+                                "Reason : " + bookedAppointment.getReason() + "\n"
+                );
+            } else {
                 JOptionPane.showMessageDialog(this,
                         "Failed to book Appointment", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -101,5 +102,4 @@ public class BookAppointmentPanel extends JPanel {
                     "Error while booking appointment! Please check your input formatting.");
         }
     }
-
 }
