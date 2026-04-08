@@ -143,7 +143,10 @@ public class MainDoctorPanel extends JPanel {
 
         // Show All Doctors Button
         showAllDoctors.addActionListener(e -> {
-
+            dynamicContentContainer.removeAll();
+            dynamicContentContainer.add(new ShowAllDoctorsPanel(), BorderLayout.SOUTH);
+            dynamicContentContainer.revalidate();
+            dynamicContentContainer.repaint();
         });
 
 
