@@ -29,14 +29,14 @@ public class DoctorService {
                     null,
                     AppointmentDTO.class
             );
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new IllegalArgumentException("Invalid ID entered");
         }
     }
 
     public List<AppointmentDTO> getAllAppointments(int doctorId) {
 
-        AppointmentDTO[] responseArray =  ApiClient.getWithToken(
+        AppointmentDTO[] responseArray = ApiClient.getWithToken(
                 "/doctors/get/appointments/" + doctorId,
                 AppointmentDTO[].class
         );
@@ -45,5 +45,18 @@ public class DoctorService {
             return new ArrayList<>();
         }
         return Arrays.asList(responseArray);
+    }
+
+    public List<DoctorDTO> fetchAllDoctors() {
+
+        DoctorDTO[] doctorArray = ApiClient.getWithToken(
+                "/doctors/fetch/all",
+                DoctorDTO[].class
+        );
+
+        if (doctorArray == null) {
+            return new ArrayList<>();
+        }
+        return Arrays.asList(doctorArray);
     }
 }
