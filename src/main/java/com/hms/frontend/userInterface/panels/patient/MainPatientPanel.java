@@ -59,12 +59,12 @@ public class MainPatientPanel extends JPanel {
         topWrapper.add(backButton, BorderLayout.WEST);
         topWrapper.add(buttonBar, BorderLayout.CENTER);
 
-        // adding to the Patient panel
+        // Adding to the MainPatientPanel
         add(topWrapper, BorderLayout.NORTH);
         add(dynamicContentContainer, BorderLayout.SOUTH);
 
 
-        // Action Listeners :
+        // Action Listeners
         // Add Patient Button
         addBtn.addActionListener(e -> {
             dynamicContentContainer.removeAll();
