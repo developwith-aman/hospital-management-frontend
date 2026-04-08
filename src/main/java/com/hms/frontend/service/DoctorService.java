@@ -5,6 +5,10 @@ import com.hms.frontend.dto.appointment.AppointmentDTO;
 import com.hms.frontend.dto.doctor.AddNewDoctorDTO;
 import com.hms.frontend.dto.doctor.DoctorDTO;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 public class DoctorService {
 
@@ -28,5 +32,18 @@ public class DoctorService {
         }catch (Exception e) {
             throw new IllegalArgumentException("Invalid ID entered");
         }
+    }
+
+    public List<AppointmentDTO> getAllAppointments(int doctorId) {
+
+        AppointmentDTO[] responseArray =  ApiClient.getWithToken(
+                "/doctors/get/appointments/" + doctorId,
+                AppointmentDTO[].class
+        );
+
+        if (responseArray == null) {
+            return new ArrayList<>();
+        }
+        return Arrays.asList(responseArray);
     }
 }
