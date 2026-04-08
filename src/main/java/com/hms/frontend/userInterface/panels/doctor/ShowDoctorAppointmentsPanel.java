@@ -59,7 +59,7 @@ public class ShowDoctorAppointmentsPanel extends JPanel {
             DoctorService doctorService = new DoctorService();
             List<AppointmentDTO> appointmentList = doctorService.getAllAppointments(doctorId);
 
-            if (appointmentList != null) {
+            if (appointmentList != null && !appointmentList.isEmpty()) {
                 for (AppointmentDTO appointment : appointmentList) {
                     Object[] rowData = {
                             appointment.getAppointment_ID(),
@@ -69,6 +69,11 @@ public class ShowDoctorAppointmentsPanel extends JPanel {
                     };
                     tableModel.addRow(rowData);
                 }
+            }else {
+                JOptionPane.showMessageDialog(this,
+                        "No Appointments against the entered ID",
+                        "No Appointment Found",
+                        JOptionPane.WARNING_MESSAGE);
             }
         } catch (Exception e) {
             e.printStackTrace();
