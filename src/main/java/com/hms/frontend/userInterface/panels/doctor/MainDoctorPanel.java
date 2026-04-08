@@ -2,6 +2,7 @@ package com.hms.frontend.userInterface.panels.doctor;
 
 import com.hms.frontend.dto.appointment.AppointmentDTO;
 import com.hms.frontend.service.DoctorService;
+import com.hms.frontend.service.PatientService;
 import com.hms.frontend.userInterface.MainFrame;
 import com.hms.frontend.userInterface.dashboards.AdminDashboard;
 
@@ -122,7 +123,22 @@ public class MainDoctorPanel extends JPanel {
 
         // Get Appointments Button
         getAppointmentsBtn.addActionListener(e -> {
+            String docId = JOptionPane.showInputDialog(this, "Enter Doctor id to see Appointments : ");
+            if (docId != null && !docId.trim().isEmpty()) {
+                try {
+                    int doctorId = Integer.parseInt(docId.trim());
 
+                    dynamicContentContainer.removeAll();
+                    dynamicContentContainer.add(new ShowDoctorAppointmentsPanel(doctorId), BorderLayout.SOUTH);
+                    dynamicContentContainer.revalidate();
+                    dynamicContentContainer.repaint();
+
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(this,
+                            "Please enter a valid numeric ID.", "Invalid Input",
+                            JOptionPane.WARNING_MESSAGE);
+                }
+            }
         });
 
         // Show All Doctors Button
