@@ -41,7 +41,7 @@ public class ViewAllPatientsPanel extends JPanel {
         patientTable = new JTable(tableModel);
         patientTable.setRowHeight(30); // Makes the rows taller and easier to read
         patientTable.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
-        patientTable.getTableHeader().setBackground(new Color(240, 240, 240));
+        patientTable.getTableHeader().setBackground(new Color(240, 240, 240, 255));
         patientTable.setFont(new Font("Segoe UI", Font.PLAIN, 14));
 
         // The Scroll Pane

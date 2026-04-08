@@ -1,7 +1,6 @@
 package com.hms.frontend.userInterface.panels.patient;
 
 import com.hms.frontend.dto.patient.PatientsDTO;
-import com.hms.frontend.userInterface.panels.patient.PatientPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -78,7 +77,7 @@ public class PatientDetailsPanel extends JPanel {
         JButton backBtn = new JButton("Back");
         backBtn.addActionListener(e -> {
             JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            topFrame.setContentPane(new PatientPanel());
+            topFrame.setContentPane(new MainPatientPanel());
             topFrame.revalidate();
         });
 

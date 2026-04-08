@@ -1,4 +1,4 @@
-package com.hms.frontend.userInterface.panels;
+package com.hms.frontend.userInterface.panels.doctor;
 
 import javax.swing.*;
 import java.awt.*;

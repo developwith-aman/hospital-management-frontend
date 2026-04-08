@@ -1,7 +1,11 @@
 package com.hms.frontend.userInterface.dashboards;
 
 import com.hms.frontend.userInterface.MainFrame;
-import com.hms.frontend.userInterface.panels.patient.PatientPanel;
+import com.hms.frontend.userInterface.panels.BillingPanel;
+import com.hms.frontend.userInterface.panels.DepartmentPanel;
+import com.hms.frontend.userInterface.panels.doctor.DoctorPanel;
+import com.hms.frontend.userInterface.panels.StaffPanel;
+import com.hms.frontend.userInterface.panels.patient.MainPatientPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,27 +31,27 @@ public class AdminDashboard extends JPanel {
 
         JButton patientBtn = createButton("Patients");
         patientBtn.addActionListener(e -> {
-            switchPanel(new com.hms.frontend.userInterface.panels.patient.PatientPanel());
+            switchPanel(new MainPatientPanel());
         });
 
         JButton doctorBtn = createButton("Doctors");
         doctorBtn.addActionListener(e -> {
-            switchPanel(new com.hms.frontend.userInterface.panels.DoctorPanel());
+            switchPanel(new DoctorPanel());
         });
 
         JButton deptBtn = createButton("Departments");
         deptBtn.addActionListener(e -> {
-            switchPanel(new com.hms.frontend.userInterface.panels.DepartmentPanel());
+            switchPanel(new DepartmentPanel());
         });
 
         JButton staffBtn = createButton("Staff");
         staffBtn.addActionListener(e -> {
-            switchPanel(new com.hms.frontend.userInterface.panels.StaffPanel());
+            switchPanel(new StaffPanel());
         });
 
         JButton billBtn = createButton("Billing");
         billBtn.addActionListener(e -> {
-            switchPanel(new com.hms.frontend.userInterface.panels.BillingPanel());
+            switchPanel(new BillingPanel());
         });
 
         topPanel.add(patientBtn);

@@ -9,12 +9,12 @@ import com.hms.frontend.userInterface.dashboards.AdminDashboard;
 import javax.swing.*;
 import java.awt.*;
 
-public class PatientPanel extends JPanel {
+public class MainPatientPanel extends JPanel {
 
     private final PatientService patientService = new PatientService();
     private JPanel dynamicContentContainer;
 
-    public PatientPanel() {
+    public MainPatientPanel() {
 
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
