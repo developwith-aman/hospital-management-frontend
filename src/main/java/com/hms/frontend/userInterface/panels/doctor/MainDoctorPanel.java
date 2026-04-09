@@ -2,7 +2,6 @@ package com.hms.frontend.userInterface.panels.doctor;
 
 import com.hms.frontend.dto.appointment.AppointmentDTO;
 import com.hms.frontend.service.DoctorService;
-import com.hms.frontend.service.PatientService;
 import com.hms.frontend.userInterface.MainFrame;
 import com.hms.frontend.userInterface.dashboards.AdminDashboard;
 
