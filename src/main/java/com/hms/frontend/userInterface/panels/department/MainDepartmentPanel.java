@@ -1,6 +1,12 @@
 package com.hms.frontend.userInterface.panels.department;
 
+import com.hms.frontend.dto.department.ShowDeptDoctorsPanel;
+import com.hms.frontend.dto.doctor.DoctorDTO;
 import com.hms.frontend.service.DepartmentService;
+import com.hms.frontend.userInterface.MainFrame;
+import com.hms.frontend.userInterface.dashboards.AdminDashboard;
+
+import java.util.List;
 
 import javax.swing.*;
 import java.awt.*;
@@ -73,7 +79,39 @@ public class MainDepartmentPanel extends JPanel {
 
         // Show Department Doctors
         viewDoctorsBtn.addActionListener(e -> {
+            String deptIdStr = JOptionPane.showInputDialog(this, "Enter Department ID: ");
 
+            if (deptIdStr != null && !deptIdStr.trim().isEmpty()) {
+                new Thread(() -> {
+                    try {
+                        Long departmentId = Long.parseLong(deptIdStr);
+                        List<DoctorDTO> doctorList = departmentService.getAllDoctorsOfDept(departmentId);
+
+                        SwingUtilities.invokeLater(() -> {
+                            if (doctorList == null || doctorList.isEmpty()) {
+                                JOptionPane.showMessageDialog(this, "No doctors found or Department ID invalid.");
+                                return;
+                            }
+
+                            // showing response in the panel
+                            dynamicContentContainer.removeAll();
+                            dynamicContentContainer.add(new ShowDeptDoctorsPanel(doctorList), BorderLayout.SOUTH);
+                            dynamicContentContainer.revalidate();
+                            dynamicContentContainer.repaint();
+                        });
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(this, "Invalid ID!");
+                    }
+                }).start();
+            }
+        });
+
+        // Back Button Logic
+        backButton.addActionListener(e -> {
+            MainFrame mainFrame = (MainFrame) SwingUtilities.getWindowAncestor(this);
+            mainFrame.setContentPane(new AdminDashboard(mainFrame));
+            mainFrame.revalidate();
+            mainFrame.repaint();
         });
     }
 
