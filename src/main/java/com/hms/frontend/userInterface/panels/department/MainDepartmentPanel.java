@@ -1,12 +1,14 @@
 package com.hms.frontend.userInterface.panels.department;
 
+import com.hms.frontend.service.DepartmentService;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class MainDepartmentPanel extends JPanel {
-
-
+    private DepartmentService departmentService = new DepartmentService();
     private JPanel dynamicContentContainer;
+
     public MainDepartmentPanel() {
 
         setLayout(new BorderLayout());
@@ -53,17 +55,20 @@ public class MainDepartmentPanel extends JPanel {
         // Add Action Listeners
         // Add New Department Button
         addNewDepartmentBtn.addActionListener(e -> {
-
+            AddNewDepartmentPanel.showDialog(this, departmentService);
         });
 
         // View Department Button
         viewDepartmentBtn.addActionListener(e -> {
-
+            dynamicContentContainer.removeAll();
+            dynamicContentContainer.add(new ShowDepartmentPanel(), BorderLayout.SOUTH);
+            dynamicContentContainer.revalidate();
+            dynamicContentContainer.repaint();
         });
 
         // Add Doctor Button
         addDoctorBtn.addActionListener(e -> {
-
+            AddDoctorToDeptPanel.showDialog(this, departmentService);
         });
 
         // Show Department Doctors
