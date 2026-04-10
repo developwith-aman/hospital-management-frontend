@@ -5,6 +5,8 @@ import com.hms.frontend.api.ApiResponse;
 import com.hms.frontend.dto.department.AddNewDepartmentDTO;
 import com.hms.frontend.dto.department.DepartmentDTO;
 import com.hms.frontend.dto.department.DoctorDepartmentDTO;
+import com.hms.frontend.dto.doctor.DoctorDTO;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -51,5 +53,18 @@ public class DepartmentService {
             throw new IllegalArgumentException(responseMessage);
         }
         return response;
+    }
+
+    public List<DoctorDTO> getAllDoctorsOfDept(Long departmentId) {
+
+        String endpoint = String.format("/department/show/doctors-of-department/%d", departmentId);
+        DoctorDTO[] doctorsArray = ApiClient.getWithToken(
+                endpoint,
+                DoctorDTO[].class
+        );
+        if (doctorsArray != null) {
+            return Arrays.asList(doctorsArray);
+        }
+        else return new ArrayList<>();
     }
 }
