@@ -1,11 +1,11 @@
-package com.hms.frontend.userInterface.panels;
+package com.hms.frontend.userInterface.panels.bill;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class BillingPanel extends JPanel {
+public class MainBillingPanel extends JPanel {
 
-    public BillingPanel() {
+    public MainBillingPanel() {
 
         setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
         setBackground(Color.WHITE);
