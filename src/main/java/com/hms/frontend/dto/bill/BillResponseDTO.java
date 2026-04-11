@@ -12,8 +12,6 @@ public class BillResponseDTO {
 
     private Long billId;
     private Long patientId;
-    private int doctorId;
-    private double consultationFee;
     private double medicineCost;
     private double bedCharges;
     private double totalAmount;

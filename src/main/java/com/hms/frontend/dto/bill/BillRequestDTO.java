@@ -10,8 +10,6 @@ import lombok.Setter;
 public class BillRequestDTO {
 
     private Long patientId;
-    private int doctorId;
-    private double consultationFee;
     private double medicineCost;
     private double bedCharges;
 }

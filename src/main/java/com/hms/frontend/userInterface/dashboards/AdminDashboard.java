@@ -1,7 +1,7 @@
 package com.hms.frontend.userInterface.dashboards;
 
 import com.hms.frontend.userInterface.MainFrame;
-import com.hms.frontend.userInterface.panels.BillingPanel;
+import com.hms.frontend.userInterface.panels.bill.MainBillingPanel;
 import com.hms.frontend.userInterface.panels.department.MainDepartmentPanel;
 import com.hms.frontend.userInterface.panels.doctor.MainDoctorPanel;
 import com.hms.frontend.userInterface.panels.staff.MainStaffPanel;
@@ -51,7 +51,7 @@ public class AdminDashboard extends JPanel {
 
         JButton billBtn = createButton("Billing");
         billBtn.addActionListener(e -> {
-            switchPanel(new BillingPanel());
+            switchPanel(new MainBillingPanel());
         });
 
         topPanel.add(patientBtn);
