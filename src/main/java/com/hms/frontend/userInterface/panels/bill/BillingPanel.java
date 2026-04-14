@@ -2,10 +2,9 @@ package com.hms.frontend.userInterface.panels.bill;
 
 import com.hms.frontend.dto.bill.BillRequestDTO;
 import com.hms.frontend.dto.bill.BillResponseDTO;
-import com.hms.frontend.dto.doctor.AddNewDoctorDTO;
-import com.hms.frontend.dto.doctor.DoctorDTO;
 import com.hms.frontend.service.BillService;
-import com.hms.frontend.service.DoctorService;
+
+import java.util.List;
 
 import javax.swing.*;
 import java.awt.*;
@@ -85,27 +84,49 @@ public class BillingPanel extends JPanel {
             billRequest.setBedCharges(Double.parseDouble(bedChargesField.getText()));
 
             BillService billService = new BillService();
-            BillResponseDTO bill = billService.generateBill(billRequest);
+            List<BillResponseDTO> bills = billService.generateBill(billRequest);
 
-            if (bill != null) {
+            if (bills != null && !bills.isEmpty()) {
+                StringBuilder report = new StringBuilder();
+                report.append("--- FINAL BILL SUMMARY ---\n");
+
+                BillResponseDTO firstBill = bills.getFirst();
+                report.append("Patient ID : ").append(firstBill.getPatientId()).append("\n");
+                report.append("Medicine Cost : ").append(firstBill.getMedicineCost()).append("\n");
+                report.append("Bed Charges : ").append(firstBill.getBedCharges()).append("\n");
+                report.append("---------------------------\n");
+                report.append("Visited Doctors & Appointments :\n");
+
+                // Loop through the list to show all doctors
+                for (BillResponseDTO b : bills) {
+                    report.append("Doctor ID : ").append(b.getDoctorId())
+                            .append(" | Consultation Fee : ").append(b.getConsultationFee()).append("\n");
+
+                }
+
+                report.append("---------------------------\n");
+                report.append("GRAND TOTAL : ").append(firstBill.getTotalAmount()).append("\n");
+                report.append("---------------------------");
+
+                // Custom TextArea for better scrolling if list is long
+                JTextArea textArea = new JTextArea(report.toString());
+                textArea.setEditable(false);
+                JScrollPane scrollPane = new JScrollPane(textArea);
+                scrollPane.setPreferredSize(new Dimension(350, 250));
+
                 JOptionPane.showMessageDialog(this,
-                        "Bill Generated Successfully :) " + "\n" +
-                                "Bill ID : " + bill.getBillId() + "\n" +
-                                "Patient ID : " + bill.getPatientId() + "\n" +
-                                "Medicine Cost : " + bill.getMedicineCost() + "\n" +
-                                "Bed Charges : " + bill.getBedCharges() + "\n" +
-                                "TOTAL BILL : " + bill.getTotalAmount()
-                );
+                        scrollPane, "Bill Generated Successfully :)", JOptionPane.INFORMATION_MESSAGE);
+
             } else {
                 JOptionPane.showMessageDialog(this,
                         "Failed to generate Bill :(", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (IllegalArgumentException e) {
-            SwingUtilities.invokeLater(() ->
-                    JOptionPane.showMessageDialog(this,
-                            e.getMessage(),
-                            "Input Error", JOptionPane.ERROR_MESSAGE)
-            );
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Please enter valid numeric values!", "Input Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
