@@ -6,10 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.hms.frontend.session.SessionManager;
 import com.hms.frontend.utils.ApiUtil;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -88,6 +85,9 @@ public class ApiClient {
                     ? conn.getInputStream()
                     : conn.getErrorStream();
 
+            if (stream == null) {
+                return null;
+            }
             BufferedReader br = new BufferedReader(new InputStreamReader(stream));
 
             StringBuilder response = new StringBuilder();
@@ -99,7 +99,7 @@ public class ApiClient {
             br.close();
             return mapper.readValue(response.toString(), responseType);
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return null;
     }
@@ -133,11 +133,11 @@ public class ApiClient {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
-    public static <R> R  deleteWithToken(String endpoint, Class<R> responseType) {
+    public static <R> R deleteWithToken(String endpoint, Class<R> responseType) {
         try {
             String url = BASE_URL + endpoint;
 
@@ -165,7 +165,7 @@ public class ApiClient {
             return mapper.readValue(response.body(), responseType);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 }

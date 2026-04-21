@@ -32,7 +32,10 @@ public class EmailUpdatePanel {
             String newEmail = emailField.getText().trim();
 
             if (idText.isEmpty() || newEmail.isEmpty()) {
-                JOptionPane.showMessageDialog(parentComponent, "Fields cannot be blank.", "Warning", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(parentComponent,
+                        "Fields cannot be blank.",
+                        "Warning",
+                        JOptionPane.WARNING_MESSAGE);
                 return;
             }
 

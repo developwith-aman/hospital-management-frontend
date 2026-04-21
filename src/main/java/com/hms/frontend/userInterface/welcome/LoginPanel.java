@@ -1,6 +1,5 @@
 package com.hms.frontend.userInterface.welcome;
 
-import com.hms.frontend.dto.login.LoginRequestDTO;
 import com.hms.frontend.dto.login.LoginResponseDTO;
 import com.hms.frontend.service.AuthService;
 import com.hms.frontend.session.SessionManager;

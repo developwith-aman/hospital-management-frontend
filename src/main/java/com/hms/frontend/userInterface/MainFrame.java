@@ -44,7 +44,12 @@ public class MainFrame extends JFrame {
     }
 
     public void showLogin() {
+        setExtendedState(JFrame.NORMAL);
+        setSize(790, 490);
+        setLocationRelativeTo(null);
         cardLayout.show(container, "LOGIN");
+        container.revalidate();
+        container.repaint();
     }
 
     public void showSignup() {
