@@ -2,7 +2,6 @@ package com.hms.frontend.userInterface.panels.bill;
 
 import com.hms.frontend.userInterface.MainFrame;
 import com.hms.frontend.userInterface.dashboards.AdminDashboard;
-import com.hms.frontend.userInterface.panels.patient.ShowAppointmentPanel;
 
 import javax.swing.*;
 import java.awt.*;
