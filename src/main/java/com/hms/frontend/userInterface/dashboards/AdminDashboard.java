@@ -1,11 +1,13 @@
 package com.hms.frontend.userInterface.dashboards;
 
+import com.hms.frontend.session.SessionManager;
 import com.hms.frontend.userInterface.MainFrame;
 import com.hms.frontend.userInterface.panels.bill.MainBillingPanel;
 import com.hms.frontend.userInterface.panels.department.MainDepartmentPanel;
 import com.hms.frontend.userInterface.panels.doctor.MainDoctorPanel;
 import com.hms.frontend.userInterface.panels.staff.MainStaffPanel;
 import com.hms.frontend.userInterface.panels.patient.MainPatientPanel;
+import com.hms.frontend.utils.JwtUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,29 +32,19 @@ public class AdminDashboard extends JPanel {
         buttonPanel.setOpaque(false);
 
         JButton patientBtn = createButton("Patients");
-        patientBtn.addActionListener(e -> {
-            switchPanel(new MainPatientPanel());
-        });
+        patientBtn.addActionListener(e -> navigateToPanel(new MainPatientPanel()));
 
         JButton doctorBtn = createButton("Doctors");
-        doctorBtn.addActionListener(e -> {
-            switchPanel(new MainDoctorPanel());
-        });
+        doctorBtn.addActionListener(e -> navigateToPanel(new MainDoctorPanel()));
 
         JButton deptBtn = createButton("Departments");
-        deptBtn.addActionListener(e -> {
-            switchPanel(new MainDepartmentPanel());
-        });
+        deptBtn.addActionListener(e -> navigateToPanel(new MainDepartmentPanel()));
 
         JButton staffBtn = createButton("Staff");
-        staffBtn.addActionListener(e -> {
-            switchPanel(new MainStaffPanel());
-        });
+        staffBtn.addActionListener(e -> navigateToPanel(new MainStaffPanel()));
 
         JButton billBtn = createButton("Billing");
-        billBtn.addActionListener(e -> {
-            switchPanel(new MainBillingPanel());
-        });
+        billBtn.addActionListener(e -> navigateToPanel(new MainBillingPanel()));
 
         topPanel.add(patientBtn);
         topPanel.add(doctorBtn);
@@ -108,5 +100,12 @@ public class AdminDashboard extends JPanel {
         contentPanel.add(panel, BorderLayout.CENTER);
         contentPanel.revalidate();
         contentPanel.repaint();
+    }
+
+    private void navigateToPanel(JPanel nextPanel) {
+
+        if (SessionManager.checkSession(mainFrame)) {
+            switchPanel(nextPanel);
+        }
     }
 }
