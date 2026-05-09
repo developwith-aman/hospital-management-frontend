@@ -72,27 +72,41 @@ public class LoginPanel extends JPanel {
 
             new Thread(() -> {
 
-                LoginResponseDTO response = AuthService.login(username, password);
+                try {
 
-                if (response != null && response.getToken() != null) {
-                    String token = response.getToken();
-                    String role = JwtUtils.extractRole(token);
-                    Long userId = JwtUtils.extractUserId(token);
+                    LoginResponseDTO response = AuthService.login(username, password);
 
-                    SessionManager.jwtToken = response.getToken();
-                    SessionManager.role = role;
-                    SessionManager.userId = userId;
-                    SessionManager.patientId = response.getPatientId();
+                    if (response != null && response.getToken() != null) {
+                        String token = response.getToken();
+                        String role = JwtUtils.extractRole(token);
+                        Long userId = JwtUtils.extractUserId(token);
 
+                        SessionManager.jwtToken = response.getToken();
+                        SessionManager.role = role;
+                        SessionManager.userId = userId;
+                        SessionManager.patientId = response.getPatientId();
+
+                        SwingUtilities.invokeLater(() -> {
+                            loginBtn.setEnabled(true);
+
+                            if ("ROLE_ADMIN".equals(role)) {
+                                mainFrame.showAdminDashboard();
+                            } else {
+                                mainFrame.showPatientDashboard();
+                            }
+                        });
+                    }
+                } catch (Exception ex) {
                     SwingUtilities.invokeLater(() -> {
+
                         loginBtn.setEnabled(true);
 
-                        if ("ROLE_ADMIN".equals(role)) {
-                            mainFrame.showAdminDashboard();
-                        } else {
-                            mainFrame.showPatientDashboard();
-                        }
-
+                        JOptionPane.showMessageDialog(
+                                null,
+                                ex.getMessage(),
+                                "Login Failed",
+                                JOptionPane.ERROR_MESSAGE
+                        );
                     });
                 }
             }).start();
