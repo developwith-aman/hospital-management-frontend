@@ -85,16 +85,28 @@ public class SignUpPanel extends JPanel {
             String password = new String(passwordField.getPassword());
 
             new Thread(() -> {
-                SignUpResponseDTO response = AuthService.signup(username, email, password);
 
-                if (response != null) {
-                    String message = "User : " + response.getUsername() +
-                            " is successfully registered.\nNow you can proceed to login.";
+                try {
 
-                    JOptionPane.showMessageDialog(mainFrame, message);
-                    mainFrame.showLogin();
-                } else {
-                    JOptionPane.showMessageDialog(mainFrame, "Signup failed");
+                    SignUpResponseDTO response = AuthService.signup(username, email, password);
+
+                    if (response != null) {
+                        String message = "User : " + response.getUsername() +
+                                " is successfully registered.\nNow you can proceed to login.";
+
+                        JOptionPane.showMessageDialog(mainFrame, message);
+                        mainFrame.showLogin();
+                    }
+                } catch (IllegalArgumentException exception) {
+                    SwingUtilities.invokeLater(() -> {
+
+                        JOptionPane.showMessageDialog(
+                                null,
+                                exception.getMessage(),
+                                "Sign-Up Failed",
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                    });
                 }
             }).start();
         });

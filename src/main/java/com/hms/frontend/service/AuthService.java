@@ -118,26 +118,27 @@ public class AuthService {
                         response.toString(),
                         SignUpResponseDTO.class
                 );
+            } else {
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader(conn.getErrorStream())
+                );
+
+                StringBuilder errorResponse = new StringBuilder();
+                String line;
+
+                while ((line = br.readLine()) != null) {
+                    errorResponse.append(line);
+                }
+                br.close();
+
+                SignUpResponseDTO error =
+                        mapper.readValue(
+                                errorResponse.toString(),
+                                SignUpResponseDTO.class
+                        );
+
+                throw new IllegalArgumentException(error.getMessage());
             }
-            BufferedReader br = new BufferedReader(
-                    new InputStreamReader(conn.getErrorStream())
-            );
-
-            StringBuilder errorResponse = new StringBuilder();
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                errorResponse.append(line);
-            }
-            br.close();
-
-            SignUpResponseDTO error =
-                    mapper.readValue(
-                            errorResponse.toString(),
-                            SignUpResponseDTO.class
-                    );
-
-            throw new IllegalArgumentException(error.getMessage());
         } catch (Exception e) {
             throw new IllegalArgumentException(e.getMessage());
         }
