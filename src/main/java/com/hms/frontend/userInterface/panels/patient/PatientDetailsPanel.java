@@ -1,6 +1,7 @@
 package com.hms.frontend.userInterface.panels.patient;
 
 import com.hms.frontend.dto.patient.PatientsDTO;
+import com.hms.frontend.userInterface.MainFrame;
 
 import javax.swing.*;
 import java.awt.*;

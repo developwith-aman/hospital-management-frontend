@@ -23,6 +23,7 @@ public class ShowAllDoctorsPanel extends JPanel {
         headerLabel.setFont(new Font("Segoe UI", Font.BOLD, 22));
         headerLabel.setForeground(new Color(0, 128, 128));
         headerLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 15, 0));
+        add(headerLabel, BorderLayout.NORTH);
 
         // Table Column headers
         String[] columns = {"ID", "Name", "Specialization", "Email", "Consultation Fee"};
