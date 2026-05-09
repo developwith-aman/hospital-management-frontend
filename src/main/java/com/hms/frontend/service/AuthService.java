@@ -72,9 +72,7 @@ public class AuthService {
                 throw new RuntimeException(error.getMessage());
             }
         } catch (Exception e) {
-            throw new RuntimeException(
-                    "Login Failed : Invalid Username OR Password"
-            );
+            throw new RuntimeException("Login Failed : Invalid Username OR Password");
         }
     }
 
@@ -121,9 +119,27 @@ public class AuthService {
                         SignUpResponseDTO.class
                 );
             }
+            BufferedReader br = new BufferedReader(
+                    new InputStreamReader(conn.getErrorStream())
+            );
+
+            StringBuilder errorResponse = new StringBuilder();
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                errorResponse.append(line);
+            }
+            br.close();
+
+            SignUpResponseDTO error =
+                    mapper.readValue(
+                            errorResponse.toString(),
+                            SignUpResponseDTO.class
+                    );
+
+            throw new IllegalArgumentException(error.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException(e.getMessage());
         }
-        return null;
     }
 }
