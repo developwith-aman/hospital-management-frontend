@@ -49,11 +49,33 @@ public class AuthService {
                         response.toString(),
                         LoginResponseDTO.class
                 );
+            } else {
+
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader(conn.getErrorStream())
+                );
+
+                StringBuilder errorResponse = new StringBuilder();
+                String line;
+
+                while ((line = br.readLine()) != null) {
+                    errorResponse.append(line);
+                }
+                br.close();
+
+                LoginResponseDTO error =
+                        mapper.readValue(
+                                errorResponse.toString(),
+                                LoginResponseDTO.class
+                        );
+
+                throw new RuntimeException(error.getMessage());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(
+                    "Login Failed : Invalid Username OR Password"
+            );
         }
-        return null;
     }
 
     public static SignUpResponseDTO signup(String username, String email, String password) {
