@@ -13,4 +13,5 @@ public class SignUpResponseDTO {
 
     private Long userId;
     private String username;
+    private String message;
 }
